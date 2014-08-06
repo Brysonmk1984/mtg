@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html ng-app="mtgApp">
+<head>
+	<title>MTG Cardster</title>
+	<link rel="stylesheet" type="text/css" href="http://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.2.0/css/bootstrap.css">
+	<link rel="stylesheet" type="text/css" href="style.css">
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+	<script src="http://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.2.0/js/bootstrap.min.js"></script>
+	<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.21/angular.min.js"></script>
+
+</head>
+<body>
+	
+	<div ng-controller="cardsterCtrl">
+		<h1>MTG Cardster</h1>
+		<div>
+			<form class="form-inline">
+				<div>
+					<div class="form-group">
+					    <div class="input-group">
+					      	<div class="input-group-addon">Select Set</div>
+					      	<select class="form-control" id="selectSet" ng-model="filterSubtype.subType" ng-change="change()" autofocus>
+								<option value="">All</option>
+								<option ng-repeat="item in mtgCardSet">{{item.name}}</option>
+							</select>
+					    </div>
+					</div>
+				</div>
+				<div class="form-group">
+				    <input class="form-control" id="searchQuery" type="text" placeholder="Search by Name" ng-model="searchQuery.name">
+				</div>
+				<div class="form-group">
+				    <div class="input-group">
+				      	<div class="input-group-addon">Mana Type:</div>
+				      	<select class="form-control"id="manaType" ng-model="filterColor.colors" >
+							<option value="">All</option>
+							<option value="Black">Black</option>
+							<option value="Blue">Blue</option>
+							<option value="Green">Green</option>
+							<option value="Red">Red</option>
+							<option value="White">White</option>
+							<option value="None">Colorless</option>
+						</select>
+				    </div>
+				</div>
+				<div class="form-group">
+				    <div class="input-group">
+				      	<div class="input-group-addon">Card Type</div>
+				      	<select id="cardType" class="form-control" ng-model="filterType.type">
+  							<option value="">All</option>
+  							<option ng-repeat="item in mtgCardType">{{item}}</option>
+  						</select>
+				    </div>
+				</div>
+				<div class="form-group">
+				    <div class="input-group">
+				      	<div class="input-group-addon">Card Subtype</div>
+				      	<select class="form-control" id="cardSubtype" ng-model="filterSubtype.subType">
+							<option value="">All</option>
+							<option ng-repeat="item in mtgCardSubtype">{{item}}</option>
+						</select>
+				    </div>
+				</div>
+				<div class="form-group">
+				    <div class="input-group">
+				      	<div class="input-group-addon">Card Rarity:</div>
+				      	<select id="cardAttributes" class="form-control" ng-model="filterRarity">
+				      		<option value="">All</option>
+				      		<option>Common</option>
+				      		<option>Uncommon</option>
+				      		<option>Rare</option>
+				      		<option>Mythic Rare</option>
+				      		<option>Basic Land</option>
+				      		<option>Special</option>
+				      		<option>Bonus</option>
+				      	</select>
+				    </div>
+				  </div>
+				<!-- <div>
+					<label for="set">Set:</label>
+					<select id="set">
+						<option selected="selected">All</option>
+						<option>Standard</option>
+						<option>{{}}</option>
+					</select>
+				</div> -->
+				<!-- <div>
+					<label for="abilities">Filter By Abilities:</label>
+					<select id="abilities">
+						<option>Lifesteal</option>
+						<option>Deathtouch</option>
+						<option>Flying</option>
+					</select>
+				</div> -->
+			</form>
+		</div>
+		<!-- <div>
+			<ul class="list-unstyled">
+				<li class="inline_block" ng-repeat="item in mtgData | filter: filterColor | filter: filterRarity | filter: filterType | filter: filterSubtype | filter:searchQuery">
+					<div><img class="card_image" src="http://api.mtgdb.info/content/card_images/383289.jpeg" /></div>
+					
+				</li>
+			</ul>
+		</div> -->
+		<br>
+		<div>
+			<ul class="list-unstyled">
+				<li class="inline_block" ng-repeat="item in mtgData | filter: filterColor | filter: filterRarity: true | filter: filterType | filter: filterSubtype | filter:searchQuery">
+					<div><img class="card_image" src="http://api.mtgdb.info/content/card_images/{{item.id}}.jpeg" /></div>
+					
+				</li>
+			</ul>
+		</div>
+	</div>
+
+<!-- <div class="inline_block">{{item.name}} - {{item.colors[0]}}</div> -->
+<script>
+</script>
+<script type="text/javascript" src="script.js"></script>
+</body>
+</html>

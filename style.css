@@ -1,0 +1,10 @@
+/* Utility Classes*/
+.inline_block{
+	display:inline-block;
+}
+
+
+/* Specific Classes */
+.card_image{
+	width:150px;
+}
