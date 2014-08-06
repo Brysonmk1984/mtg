@@ -104,7 +104,7 @@
 		</div> -->
 		<br>
 		<div>
-			<ul class="list-unstyled">
+			<ul class="list-unstyled" ng-model="allCards">
 				<li class="inline_block" ng-repeat="item in mtgData | filter: filterColor | filter: filterRarity: true | filter: filterType | filter: filterSubtype | filter:searchQuery">
 					<div><img class="card_image" src="http://api.mtgdb.info/content/card_images/{{item.id}}.jpeg" /></div>
 					
