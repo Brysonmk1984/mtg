@@ -32,7 +32,9 @@ mtgApp.controller('cardsterCtrl',['$scope','$http', 'mtgFactory', function($scop
 
 
 	var handleCardSubtypes = function(data,status){
+		console.log("shit made it");
 		$scope.mtgCardSubtype = data;
+
 	};
 	//mtgFactory.getMtgCardSubtypes().success(handleCardSubtypes);
 	
@@ -46,23 +48,26 @@ mtgApp.controller('cardsterCtrl',['$scope','$http', 'mtgFactory', function($scop
 	var handleAllCards = function(data,status){
 		
 			$scope.mtgData = data;
-			console.log($scope.mtgData = data);
+
+			console.log($scope.mtgData);
+
 		
 	};
 	/* On load AJAX call */
-	mtgFactory.getMtgData().success(handleAllCards);
+	mtgFactory.getMtgData().then(handleAllCards);
 	
 	
 
-
+	
 
 
 	/* On change AJAX call... should do exact same thing the on load AJAX call does */
 	$scope.change = function(){
 	
-		$scope.$apply(function(){
-			mtgFactory.getMtgData().success(handleAllCards);
-		});
+		//$scope.$apply(function(){
+			mtgFactory.getMtgData().then(handleAllCards);
+
+		//});
 
 	};
 
