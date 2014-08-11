@@ -1,0 +1,7 @@
+# list of files and directories that we don't want git to track
+
+# mac os directory config file
+.DS_Store
+
+#sublime auto-upload config file
+sftp-config.json
