@@ -18,9 +18,17 @@
 					<div class="form-group">
 					    <div class="input-group">
 					      	<div class="input-group-addon">Select Set</div>
-					      	<select class="form-control" id="selectSet" ng-model="filterSubtype.subType" ng-change="change()" autofocus>
+					      	<!-- <select class="form-control" id="selectSet" ng-model="filterSet.mtgCardSet" ng-options="mtgCardSet.data for mtgCardSet" ng-change="selectSet(item.name)" autofocus>
+								
+							</select> -->
+							<!-- <select ng-model="myModel.someObject"
+							    ng-options="someObject.text for someObject in objectList track by someObject.key">
+							</select> -->
+							<select class="form-control" id="selectSet" ng-model="filterSet.mtgCardSet"  ng-change="selectSet(item.name)" autofocus>
 								<option value="">All</option>
+	
 								<option ng-repeat="item in mtgCardSet">{{item.name}}</option>
+								
 							</select>
 					    </div>
 					</div>
@@ -104,17 +112,13 @@
 		<br>
 		<div>
 			<ul class="list-unstyled" ng-model="allCards">
-				<li class="inline_block" ng-repeat="item in mtgData.data">
-				<!-- <li class="inline_block" ng-repeat="item in mtgData.data | filter: filterColor | filter: filterRarity: true | filter: filterType | filter: filterSubtype | filter:searchQuery"> -->
-					<!-- <div>{{item}} {{item.id}}</div> -->
+				<li class="inline_block" ng-repeat="item in mtgData.data | filter: filterColor | filter: filterRarity: true | filter: filterType  | filter:searchQuery">
 					<div><img class="card_image" src="http://api.mtgdb.info/content/card_images/{{item.id}}.jpeg" /></div>
 					
 				</li>
 			</ul>
 		</div>
 	</div>
-
-<!-- <div class="inline_block">{{item.name}} - {{item.colors[0]}}</div> -->
 <script>
 </script>
 <script type="text/javascript" src="script.js"></script>

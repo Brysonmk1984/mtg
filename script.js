@@ -4,8 +4,10 @@ mtgApp.factory('mtgFactory', function($http){
 	factory.getMtgCardSet = function(){
 		return $http.get('http://api.mtgdb.info/sets/');
 	};
-	factory.getMtgData = function(){
-		return $http.get('http://api.mtgdb.info/sets/m15/cards/');
+	factory.getMtgData = function(selectedSet){
+		var defaultSet = "m10"
+		var selectedSet = selectedSet || defaultSet;
+		return $http.get('http://api.mtgdb.info/sets/'+ selectedSet +'/cards/');
 	};
 	/*factory.getMtgCardTypes = function(){
 		return $http.get('http://api.mtgdb.info/cards/types');
@@ -39,36 +41,21 @@ mtgApp.controller('cardsterCtrl',['$scope','$http', 'mtgFactory', function($scop
 	//mtgFactory.getMtgCardSubtypes().success(handleCardSubtypes);
 	
 
-
-
-
-
-
 	/* This is the callback shared by both  AJAX calls below */
 	var handleAllCards = function(data,status){
-		
-			$scope.mtgData = data;
-
-			console.log($scope.mtgData);
-
-		
+		$scope.mtgData = data;
+		console.log($scope.mtgData);	
 	};
+
 	/* On load AJAX call */
 	mtgFactory.getMtgData().then(handleAllCards);
 	
-	
-
-	
-
 
 	/* On change AJAX call... should do exact same thing the on load AJAX call does */
-	$scope.change = function(){
-	
-		//$scope.$apply(function(){
-			mtgFactory.getMtgData().then(handleAllCards);
-
-		//});
-
+	$scope.selectSet = function(set){
+		$scope.selectedSet = set;
+		console.log($scope.selectedSet);
+		mtgFactory.getMtgData('m12').then(handleAllCards);
 	};
 
 	
