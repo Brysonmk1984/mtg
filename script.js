@@ -23,6 +23,7 @@ mtgApp.controller('cardsterCtrl',['$scope','$http', 'mtgFactory', function($scop
 	var handleCardSet = function(data,status){
 		$scope.mtgCardSet = data;
 		//console.log($scope.cardSet = data);
+		
 	};
 	mtgFactory.getMtgCardSet().success(handleCardSet);
 	
@@ -35,7 +36,7 @@ mtgApp.controller('cardsterCtrl',['$scope','$http', 'mtgFactory', function($scop
 
 	var handleCardSubtypes = function(data,status){
 		console.log("shit made it");
-		$scope.mtgCardSubtype = data;
+		//$scope.mtgCardSubtype = data;
 
 	};
 	//mtgFactory.getMtgCardSubtypes().success(handleCardSubtypes);
@@ -44,21 +45,38 @@ mtgApp.controller('cardsterCtrl',['$scope','$http', 'mtgFactory', function($scop
 	/* This is the callback shared by both  AJAX calls below */
 	var handleAllCards = function(data,status){
 		$scope.mtgData = data;
-		console.log($scope.mtgData);	
+		//console.log($scope.mtgData);	
 	};
 
 	/* On load AJAX call */
 	mtgFactory.getMtgData().then(handleAllCards);
 	
-
+	
 	/* On change AJAX call... should do exact same thing the on load AJAX call does */
 	$scope.selectSet = function(set){
 		$scope.selectedSet = set;
 		console.log($scope.selectedSet);
-		mtgFactory.getMtgData('m12').then(handleAllCards);
+		var selectedSetId = returnSetId($scope.selectedSet);
+		
+		mtgFactory.getMtgData(selectedSetId).then(handleAllCards);
 	};
 
+	var returnSetId = function(name){
+		var name = name;
+		var cake;
 	
+		
+		angular.forEach($scope.mtgCardSet, function(key, value){
+			//console.log(key);
+			if(key.name === name){
+				cake =  key.id;
+			}
+
+		});
+
+		
+		return cake;
+	};
 }]);
 
 

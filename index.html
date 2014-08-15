@@ -18,18 +18,18 @@
 					<div class="form-group">
 					    <div class="input-group">
 					      	<div class="input-group-addon">Select Set</div>
-					      	<!-- <select class="form-control" id="selectSet" ng-model="filterSet.mtgCardSet" ng-options="mtgCardSet.data for mtgCardSet" ng-change="selectSet(item.name)" autofocus>
+					      	<select class="form-control" id="selectSet" ng-model="random" ng-options="poop.name as poop.name  for poop in  mtgCardSet" ng-change="selectSet(random)" autofocus>
 								
-							</select> -->
+							</select>
 							<!-- <select ng-model="myModel.someObject"
 							    ng-options="someObject.text for someObject in objectList track by someObject.key">
 							</select> -->
-							<select class="form-control" id="selectSet" ng-model="filterSet.mtgCardSet"  ng-change="selectSet(item.name)" autofocus>
+							<!-- <select class="form-control" id="selectSet" ng-model="filterSet.mtgCardSet"  ng-change="selectSet(item.name)" autofocus>
 								<option value="">All</option>
 	
 								<option ng-repeat="item in mtgCardSet">{{item.name}}</option>
 								
-							</select>
+							</select> -->
 					    </div>
 					</div>
 				</div>
