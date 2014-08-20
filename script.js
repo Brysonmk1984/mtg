@@ -9,12 +9,15 @@ mtgApp.factory('mtgFactory', function($http){
 		var selectedSet = selectedSet || defaultSet;
 		return $http.get('http://api.mtgdb.info/sets/'+ selectedSet +'/cards/');
 	};
-	/*factory.getMtgCardTypes = function(){
+	factory.getMtgCardTypes = function(){
 		return $http.get('http://api.mtgdb.info/cards/types');
 	};
 	factory.getMtgCardSubtypes = function(){
 		return $http.get('http://api.mtgdb.info/cards/subtypes');
-	};*/
+	};
+	factory.getCard = function(card){
+		return $http.get('http://api.mtgdb.info/search/'+ card +'?start=0&limit=0');
+	};
 	 return factory;
 });
 
@@ -22,7 +25,7 @@ mtgApp.controller('cardsterCtrl',['$scope','$http', 'mtgFactory', function($scop
 
 	var handleCardSet = function(data,status){
 		$scope.mtgCardSet = data;
-		//console.log($scope.cardSet = data);
+		//console.log($scope.mtgCardSet);
 		
 	};
 	mtgFactory.getMtgCardSet().success(handleCardSet);
@@ -31,21 +34,26 @@ mtgApp.controller('cardsterCtrl',['$scope','$http', 'mtgFactory', function($scop
 		$scope.mtgCardType = data;
 
 	};
-	//mtgFactory.getMtgCardTypes().success(handleCardTypes);
+	mtgFactory.getMtgCardTypes().success(handleCardTypes);
 
 
 	var handleCardSubtypes = function(data,status){
-		console.log("shit made it");
-		//$scope.mtgCardSubtype = data;
+		$scope.mtgCardSubtype = data;
+		//console.log($scope.mtgCardSubtype);
 
 	};
-	//mtgFactory.getMtgCardSubtypes().success(handleCardSubtypes);
+	mtgFactory.getMtgCardSubtypes().success(handleCardSubtypes);
 	
 
 	/* This is the callback shared by both  AJAX calls below */
 	var handleAllCards = function(data,status){
 		$scope.mtgData = data;
 		//console.log($scope.mtgData);	
+	};
+
+	var handleSpecificCard = function(data,status){
+		$scope.mtgCard = data;
+		handleAllCards($scope.mtgCard);
 	};
 
 	/* On load AJAX call */
@@ -77,6 +85,13 @@ mtgApp.controller('cardsterCtrl',['$scope','$http', 'mtgFactory', function($scop
 		
 		return cake;
 	};
+	
+	$scope.getCard = function(card){
+		$scope.card = card;
+		console.log(card);
+		mtgFactory.getCard(card).then(handleSpecificCard)
+	};
+
 }]);
 
 
