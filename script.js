@@ -21,7 +21,7 @@ mtgApp.factory('mtgFactory', function($http){
 	 return factory;
 });
 
-mtgApp.controller('cardsterCtrl',['$scope','$http', 'mtgFactory', function($scope, $http, mtgFactory){
+mtgApp.controller('cardsterCtrl',['$scope','$http', 'mtgFactory', '$timeout', function($scope, $http, mtgFactory, $timeout){
 
 	var handleCardSet = function(data,status){
 		$scope.mtgCardSet = data;
@@ -85,11 +85,40 @@ mtgApp.controller('cardsterCtrl',['$scope','$http', 'mtgFactory', function($scop
 		
 		return cake;
 	};
+
+	var returnCardInfo = function(cardId){
+		var cardId = cardId;
+		var cardObj;
+		angular.forEach($scope.mtgData.data, function(key, value){
+			//console.log(key);
+			if(key.id === cardId){
+				cardObj = key;
+				return;
+			}
+			
+
+		});
+
+		
+		return cardObj;
+	};
 	
 	$scope.getCard = function(card){
 		$scope.card = card;
 		console.log(card);
 		mtgFactory.getCard(card).then(handleSpecificCard)
+	};
+
+	$scope.launchModal = function(cardId){
+		$scope.cardId = cardId;
+		var clickedCardInfo = returnCardInfo($scope.cardId);
+		console.log(clickedCardInfo);
+		$("#largeCardImageContainer").html('<img id="largeCardImage" src="http://api.mtgdb.info/content/hi_res_card_images/'+ $scope.cardId +'.jpg"/>');
+		$timeout(function(){
+			$('#cardModal').modal();
+		}, 300);
+		
+		
 	};
 
 }]);

@@ -10,7 +10,7 @@
 
 </head>
 <body>
-	<div ng-controller="cardsterCtrl">
+	<div id="wrapper" ng-controller="cardsterCtrl">
 		<h1>MTG Cardster</h1>
 		<div>
 			<form class="form-inline">
@@ -82,11 +82,35 @@
 		<br>
 		<div>
 			<ul class="list-unstyled" ng-model="allCards">
-				<li class="inline_block" ng-repeat="item in mtgData.data | filter: filterColor | filter: filterRarity: true | filter: filterType | filter: filterSubType | filter:searchQuery">
-					<div><img class="card_image" src="http://api.mtgdb.info/content/card_images/{{item.id}}.jpeg" /></div>
+				<li class="cardListItem inline_block" ng-repeat="item in mtgData.data | filter: filterColor | filter: filterRarity: true | filter: filterType | filter: filterSubType | filter:searchQuery">
+					<div>
+						<img id="{{item.id}}" class="card_image" ng-click="launchModal( item.id )" src="http://api.mtgdb.info/content/card_images/{{item.id}}.jpeg" />
+					</div>
 					
 				</li>
 			</ul>
+		</div>
+	</div>
+
+
+	<div class="modal fade" id="cardModal" tabindex="-1" role="dialog" aria-labelledby="cardModal" aria-hidden="true">
+		<div class="modal-dialog">
+		    <div class="modal-content">
+		      	<div class="modal-header">
+			        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+			        <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+		      	</div>
+			      	<div class="modal-body">
+			      		<div id="largeCardImageContainer">
+
+			      		</div>
+			        	
+			      	</div>
+		     	<div class="modal-footer">
+			        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+			        <button type="button" class="btn btn-primary">Save changes</button>
+		      	</div>
+		    </div>
 		</div>
 	</div>
 <script>

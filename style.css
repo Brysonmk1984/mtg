@@ -5,6 +5,40 @@
 
 
 /* Specific Classes */
+html{
+	width:100%;
+}
+body{
+	width:100%;
+	margin:0px;
+	padding:0px;
+}
+div#wrapper{
+	width:90%;
+	margin:0px auto;
+}
+ul{
+	text-align:center;
+}
+li.cardListItem{
+	display:inline-block;
+	position:relative;
+	width:150px;
+
+	overflow:visible;
+}
 .card_image{
 	width:150px;
+	cursor:pointer
+}
+.card_image:hover{
+	width:222px;
+	margin-left:-111px;
+	margin-top:-155px;
+	position:absolute;
+	z-index:1000;
+	border-radius:14px;
+	box-shadow:0px 6px 10px black;
+	/*box-shadow:0px 10px 20px white;
+	box-shadow:0px -10px 20px white;*/
 }
