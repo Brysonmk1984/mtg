@@ -42,3 +42,19 @@ li.cardListItem{
 	/*box-shadow:0px 10px 20px white;
 	box-shadow:0px -10px 20px white;*/
 }
+
+.modal-dialog{
+	width:80%;
+}
+.modal-dialog #largeCardImageContainer{
+	width:48%;
+	display:inline-block;
+}
+.modal-dialog #extraInfoContainer{
+	width:48%;
+	display:inline-block;
+}
+.modal-dialog #largeCardImage{
+	max-width:400px;
+	width:100%;
+}

@@ -112,14 +112,18 @@ mtgApp.controller('cardsterCtrl',['$scope','$http', 'mtgFactory', '$timeout', fu
 	$scope.launchModal = function(cardId){
 		$scope.cardId = cardId;
 		var clickedCardInfo = returnCardInfo($scope.cardId);
-		console.log(clickedCardInfo);
+		$scope.cardInfo = clickedCardInfo;
+		console.log($scope.cardInfo);
 		$("#largeCardImageContainer").html('<img id="largeCardImage" src="http://api.mtgdb.info/content/hi_res_card_images/'+ $scope.cardId +'.jpg"/>');
+		//$("#extraInfoContainer").html();
 		$timeout(function(){
 			$('#cardModal').modal();
 		}, 300);
 		
 		
 	};
+	// $scope.cardFlavor = function(cardId){
+	// 	return $scope.cardInfo.flavor;
 
 }]);
 

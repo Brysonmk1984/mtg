@@ -9,8 +9,8 @@
 	<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.21/angular.min.js"></script>
 
 </head>
-<body>
-	<div id="wrapper" ng-controller="cardsterCtrl">
+<body ng-controller="cardsterCtrl">
+	<div id="wrapper" >
 		<h1>MTG Cardster</h1>
 		<div>
 			<form class="form-inline">
@@ -82,9 +82,9 @@
 		<br>
 		<div>
 			<ul class="list-unstyled" ng-model="allCards">
-				<li class="cardListItem inline_block" ng-repeat="item in mtgData.data | filter: filterColor | filter: filterRarity: true | filter: filterType | filter: filterSubType | filter:searchQuery">
+				<li class="cardListItem inline_block" ng-repeat="item in mtgData.data | filter: filterColor | filter: filterRarity: true | filter: filterType | filter: filterSubType | filter:searchQuery | limitTo: 20">
 					<div>
-						<img id="{{item.id}}" class="card_image" ng-click="launchModal( item.id )" src="http://api.mtgdb.info/content/card_images/{{item.id}}.jpeg" />
+						<img id="{{item.id}}" class="card_image large_image" ng-click="launchModal( item.id )" src="http://api.mtgdb.info/content/card_images/{{item.id}}.jpeg" />
 					</div>
 					
 				</li>
@@ -101,8 +101,18 @@
 			        <h4 class="modal-title" id="myModalLabel">Modal title</h4>
 		      	</div>
 			      	<div class="modal-body">
-			      		<div id="largeCardImageContainer">
-
+			      		<div id="largeCardImageContainer"></div>
+			      		<div id="extraInfoContainer" ng-model="cardInfo">
+			      			<div><strong>{{cardInfo.name}}</strong></div>
+			      			<div><strong>{{cardInfo.type}}</strong> {{cardInfo.subType}}</div>
+			      			<div><strong>Colors:</strong>{{cardInfo.colors}}</div>
+			      			<div><strong>Power:</strong> {{cardInfo.power}}</div>
+			      			<div><strong>Toughness:</strong>{{cardInfo.toughness}}</div>
+			      			<div><strong>Description:</strong>{{cardInfo.description}}</div>
+			      			<div><strong>Rarity:</strong> {{cardInfo.rarity}}</div>
+			      			<div><strong>Set:</strong>{{cardInfo.cardSetId}}</div>
+			      			<br>
+			      			<div>{{cardInfo.flavor}}</div>
 			      		</div>
 			        	
 			      	</div>
