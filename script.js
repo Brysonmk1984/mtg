@@ -25,7 +25,7 @@ mtgApp.controller('cardsterCtrl',['$scope','$http', 'mtgFactory', '$timeout', fu
 
 	var handleCardSet = function(data,status){
 		$scope.mtgCardSet = data;
-		//console.log($scope.mtgCardSet);
+		console.log($scope.mtgCardSet);
 		
 	};
 	mtgFactory.getMtgCardSet().success(handleCardSet);
@@ -48,7 +48,9 @@ mtgApp.controller('cardsterCtrl',['$scope','$http', 'mtgFactory', '$timeout', fu
 	/* This is the callback shared by both  AJAX calls below */
 	var handleAllCards = function(data,status){
 		$scope.mtgData = data;
-		//console.log($scope.mtgData);	
+		$scope.setName = data;
+		console.log($scope.setName);
+		console.log($scope.mtgData);	
 	};
 
 	var handleSpecificCard = function(data,status){
@@ -110,6 +112,7 @@ mtgApp.controller('cardsterCtrl',['$scope','$http', 'mtgFactory', '$timeout', fu
 	};
 
 	$scope.launchModal = function(cardId){
+		$("#loadingImageContainer").removeClass('hide');
 		$scope.cardId = cardId;
 		var clickedCardInfo = returnCardInfo($scope.cardId);
 		$scope.cardInfo = clickedCardInfo;
@@ -117,6 +120,7 @@ mtgApp.controller('cardsterCtrl',['$scope','$http', 'mtgFactory', '$timeout', fu
 		$("#largeCardImageContainer").html('<img id="largeCardImage" src="http://api.mtgdb.info/content/hi_res_card_images/'+ $scope.cardId +'.jpg"/>');
 		//$("#extraInfoContainer").html();
 		$timeout(function(){
+			$("#loadingImageContainer").addClass('hide');
 			$('#cardModal').modal();
 		}, 300);
 		
