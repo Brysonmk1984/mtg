@@ -5,7 +5,7 @@ mtgApp.factory('mtgFactory', function($http){
 		return $http.get('http://api.mtgdb.info/sets/');
 	};
 	factory.getMtgData = function(selectedSet){
-		var defaultSet = "m10"
+		var defaultSet = "m15"
 		var selectedSet = selectedSet || defaultSet;
 		return $http.get('http://api.mtgdb.info/sets/'+ selectedSet +'/cards/');
 	};
@@ -18,6 +18,11 @@ mtgApp.factory('mtgFactory', function($http){
 	factory.getCard = function(card){
 		return $http.get('http://api.mtgdb.info/search/'+ card +'?start=0&limit=0');
 	};
+	factory.getCardPrice = function(cardName){
+		var myUrl = 'http://magictcgprices.appspot.com/api/tcgplayer/price.json?cardname='+cardName+'&callback=JSON_CALLBACK';
+		console.log(myUrl);
+		return $http.jsonp(myUrl);
+	};
 	 return factory;
 });
 
@@ -25,7 +30,7 @@ mtgApp.controller('cardsterCtrl',['$scope','$http', 'mtgFactory', '$timeout', fu
 
 	var handleCardSet = function(data,status){
 		$scope.mtgCardSet = data;
-		console.log($scope.mtgCardSet);
+		//console.log($scope.mtgCardSet);
 		
 	};
 	mtgFactory.getMtgCardSet().success(handleCardSet);
@@ -47,9 +52,8 @@ mtgApp.controller('cardsterCtrl',['$scope','$http', 'mtgFactory', '$timeout', fu
 
 	/* This is the callback shared by both  AJAX calls below */
 	var handleAllCards = function(data,status){
+		$scope.loadingSpinner = false
 		$scope.mtgData = data;
-		$scope.setName = data;
-		console.log($scope.setName);
 		console.log($scope.mtgData);	
 	};
 
@@ -58,12 +62,19 @@ mtgApp.controller('cardsterCtrl',['$scope','$http', 'mtgFactory', '$timeout', fu
 		handleAllCards($scope.mtgCard);
 	};
 
+	var handleCardPrice = function(data,status){alert(1);
+		$scope.mtgCardPrice = data;
+		console.log($scope.mtgCardPrice);
+	};
+
 	/* On load AJAX call */
+	$scope.loadingSpinner = true;
 	mtgFactory.getMtgData().then(handleAllCards);
 	
 	
 	/* On change AJAX call... should do exact same thing the on load AJAX call does */
 	$scope.selectSet = function(set){
+		$scope.loadingSpinner = true;
 		$scope.selectedSet = set;
 		console.log($scope.selectedSet);
 		var selectedSetId = returnSetId($scope.selectedSet);
@@ -107,23 +118,39 @@ mtgApp.controller('cardsterCtrl',['$scope','$http', 'mtgFactory', '$timeout', fu
 	
 	$scope.getCard = function(card){
 		$scope.card = card;
-		console.log(card);
 		mtgFactory.getCard(card).then(handleSpecificCard)
 	};
 
 	$scope.launchModal = function(cardId){
-		$("#loadingImageContainer").removeClass('hide');
+		$scope.loadingSpinner = true;
 		$scope.cardId = cardId;
 		var clickedCardInfo = returnCardInfo($scope.cardId);
 		$scope.cardInfo = clickedCardInfo;
-		console.log($scope.cardInfo);
+		$scope.cardName = $scope.cardInfo.name;
+		//console.log($scope.cardName);
+		$scope.cardPrice; 
+		mtgFactory.getCardPrice($scope.cardName).
+    success(function(data, status, headers, config) {
+      // this callback will be called asynchronously
+      // when the response is available
+    }).
+    error(function(data, status, headers, config) {
+      console.log(data);
+      console.log(status);
+      console.log(headers);
+      console.log(config);
+    }).then(handleCardPrice);
+		
+
 		$("#largeCardImageContainer").html('<img id="largeCardImage" src="http://api.mtgdb.info/content/hi_res_card_images/'+ $scope.cardId +'.jpg"/>');
-		//$("#extraInfoContainer").html();
 		$timeout(function(){
-			$("#loadingImageContainer").addClass('hide');
+			$scope.loadingSpinner = false;
 			$('#cardModal').modal();
 		}, 300);
-		
+
+
+	
+
 		
 	};
 	// $scope.cardFlavor = function(cardId){

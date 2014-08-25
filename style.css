@@ -56,6 +56,16 @@ section{
 	vertical-align:top;
 	margin-bottom:0px;
 }
+.form-control{
+	height:28px;
+	padding:0px 6px;
+}
+#cardType{
+	width:110px;
+}
+#cardSubtype{
+	width:110px;
+}
 #setSelectContainer #setSelectTitle{
 	display:inline-block;
 	vertical-align:top;
@@ -93,7 +103,9 @@ li.cardListItem{
 	/*box-shadow:0px 10px 20px white;
 	box-shadow:0px -10px 20px white;*/
 }
-
+#loadingCardsImageContainer img{
+	width:200px;
+}
 .modal-dialog{
 	width:80%;
 	top:10%;
@@ -180,6 +192,9 @@ li.cardListItem{
 	opacity:1;
 }
 @media (max-width:765px){
+	.form-control{
+		width:100% !important;
+	}
 	.modal-dialog{
 		width:100%;
 	}

@@ -93,9 +93,10 @@
 				</div>
 				<br>
 				<div>
+					
 					<ul class="list-unstyled" ng-model="allCards">
 						<li class="cardListItem inline_block" ng-repeat="item in mtgData.data | filter: filterColor | filter: filterRarity: true | filter: filterType | filter: filterSubType | filter:searchQuery">
-							
+								
 								<img id="{{item.id}}" class="card_image large_image" ng-click="launchModal( item.id )" src="http://api.mtgdb.info/content/card_images/{{item.id}}.jpeg" />
 
 							
@@ -106,7 +107,7 @@
 			</div>
 		</section>
 	</div>
-	<div id="loadingImageContainer" class="hide">
+	<div id="loadingImageContainer" ng-show="loadingSpinner">
 		<img src="images/loader.gif" />
 	</div>
 
@@ -131,6 +132,7 @@
 			      			</div>
 			      			<div id="modalCardRarity" class="modalCardInfo"><strong>Rarity:</strong> {{cardInfo.rarity}}</div>
 			      			<div id="modalCardSet" class="modalCardInfo"><strong>Set: </strong>{{cardInfo.cardSetId}}</div>
+			      			<div id="modalCardPrices" class="modalCardInfo">{{cardInfo.cardPrice}}</div>
 			      			<br>
 			      			<div id="modalCardFlavor" class="modalCardInfo text-center" ng-show="cardInfo.flavor.length"><em>{{cardInfo.flavor}}</em></div>
 			      		</div>
