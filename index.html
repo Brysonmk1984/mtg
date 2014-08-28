@@ -14,13 +14,25 @@
 	<div id="wrapper" >
 		<header>
 			<h1>MTG Cardster</h1>
-			<div id="searchContainer">
-				<div class="form-group">					
-					<div class="input-group">
-					    <input class="form-control" id="cardQuery" type="text" placeholder="Search for Card" ng-model="cardName">
-					    <span ng-click="getCard(cardName)" class="input-group-btn">
-			            	<button class="btn btn-default" type="button"><span class="glyphicon glyphicon-search"></span></button>
-			          	</span>
+			<div class="pull-right">
+				<div id="setSelectContainer">
+					<div id="setSelectField" class="form-group">
+					    <div class="input-group">
+					      	<div class="input-group-addon">Select Set</div>
+					      	<select class="form-control" id="selectSet" ng-model="random" ng-options="poop.name as poop.name  for poop in mtgCardSet | orderBy : 'releasedAt' : true" ng-change="selectSet(random)" autofocus>
+							</select>
+					    </div>
+					</div>
+
+				</div>
+				<div id="searchContainer">
+					<div class="form-group">					
+						<div class="input-group">
+						    <input class="form-control" id="cardQuery" type="text" placeholder="Search for Card" ng-model="cardName">
+						    <span ng-click="getCard(cardName)" class="input-group-btn">
+				            	<button class="btn btn-default" type="button"><span class="glyphicon glyphicon-search"></span></button>
+				          	</span>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -57,7 +69,7 @@
 			      		<option>Bonus</option>
 			      	</select>
 			    </div>
-			  </div>
+			</div>
 			<div class="form-group">
 			    <div class="input-group">
 			      	<div class="input-group-addon">Card Type</div>
@@ -67,7 +79,7 @@
 						</select>
 			    </div>
 			</div>
-			<div class="form-group">
+			<!-- <div class="form-group">
 			    <div class="input-group">
 			      	<div class="input-group-addon">Card Subtype</div>
 			      	<select class="form-control" id="cardSubtype" ng-model="filterType.subType">
@@ -75,29 +87,32 @@
 						<option ng-repeat="item in mtgCardSubtype">{{item}}</option>
 					</select>
 			    </div>
-			</div>
+			</div> -->
 		</form>
 		<section class="panel panel-default">
 			<div class="panel-body">
-				<div id="setSelectContainer" class="well">
+				<div id="setTitleContainer" class="well clearfix">
 					<div id="setSelectTitle">
 						<h2 ng-model="mtgData">{{mtgData.data[0].cardSetName}}</h2>
 					</div>
-					<div id="setSelectField" class="form-group">
-					    <div class="input-group">
-					      	<div class="input-group-addon">Select Set</div>
-					      	<select class="form-control" id="selectSet" ng-model="random" ng-options="poop.name as poop.name  for poop in mtgCardSet | orderBy : 'releasedAt' : true" ng-change="selectSet(random)" autofocus>
-							</select>
-					    </div>
+					<div id="paginationButtons">
+						<button class="btn btn-primary" ng-disabled="currentPage == 0" ng-click="currentPage=currentPage-1">
+						    Previous
+						</button>
+						  {{currentPage+1}}/{{numberOfPages()}}
+						<button class="btn btn-primary" ng-disabled="currentPage >= data.length/pageSize - 1" ng-click="currentPage=currentPage+1">
+						    Next
+						</button>
 					</div>
+					
 				</div>
 				<br>
 				<div>
 					
 					<ul class="list-unstyled" ng-model="allCards">
-						<li class="cardListItem inline_block" ng-repeat="item in mtgData.data | filter: filterColor | filter: filterRarity: true | filter: filterType | filter: filterSubType | filter:searchQuery">
+						<li class="cardListItem inline_block" ng-repeat="item in mtgData.data | filter: filterColor | filter: filterRarity: true | filter: filterType | filter: filterSubType | filter:searchQuery | startFrom:currentPage*pageSize | limitTo:pageSize">
 								
-								<img id="{{item.id}}" class="card_image large_image" ng-click="launchModal( item.id )" src="http://api.mtgdb.info/content/card_images/{{item.id}}.jpeg" />
+							<img id="{{item.id}}" class="card_image large_image" ng-click="launchModal( item.id )" src="http://api.mtgdb.info/content/card_images/{{item.id}}.jpeg" />
 
 							
 							
@@ -105,6 +120,7 @@
 					</ul>
 				</div>
 			</div>
+			
 		</section>
 	</div>
 	<div id="loadingImageContainer" ng-show="loadingSpinner">

@@ -12,9 +12,9 @@ mtgApp.factory('mtgFactory', function($http){
 	factory.getMtgCardTypes = function(){
 		return $http.get('http://api.mtgdb.info/cards/types');
 	};
-	factory.getMtgCardSubtypes = function(){
+	/*factory.getMtgCardSubtypes = function(){
 		return $http.get('http://api.mtgdb.info/cards/subtypes');
-	};
+	};*/
 	factory.getCard = function(card){
 		return $http.get('http://api.mtgdb.info/search/'+ card +'?start=0&limit=0');
 	};
@@ -42,20 +42,32 @@ mtgApp.controller('cardsterCtrl',['$scope','$http', 'mtgFactory', '$timeout', fu
 	mtgFactory.getMtgCardTypes().success(handleCardTypes);
 
 
-	var handleCardSubtypes = function(data,status){
+	/*var handleCardSubtypes = function(data,status){
 		$scope.mtgCardSubtype = data;
 		//console.log($scope.mtgCardSubtype);
 
 	};
-	mtgFactory.getMtgCardSubtypes().success(handleCardSubtypes);
+	mtgFactory.getMtgCardSubtypes().success(handleCardSubtypes);*/
 	
+
+
+
+
 
 	/* This is the callback shared by both  AJAX calls below */
 	var handleAllCards = function(data,status){
 		$scope.loadingSpinner = false
 		$scope.mtgData = data;
-		console.log($scope.mtgData);	
+		$scope.setCount = data.data.length;
+		//console.log($scope.mtgData);
+		$scope.pagination($scope.setCount);
 	};
+
+
+
+
+
+
 
 	var handleSpecificCard = function(data,status){
 		$scope.mtgCard = data;
@@ -153,9 +165,33 @@ mtgApp.controller('cardsterCtrl',['$scope','$http', 'mtgFactory', '$timeout', fu
 
 		
 	};
-	// $scope.cardFlavor = function(cardId){
-	// 	return $scope.cardInfo.flavor;
+	
+
+	$scope.pagination = function(setCount){
+		$scope.currentPage = 0;
+	    $scope.pageSize = 50;
+	    $scope.data = [];
+	    $scope.numberOfPages=function(){
+	        return Math.ceil($scope.data.length/$scope.pageSize);                
+	    }
+	    console.log(setCount);
+	    for (var i=0; i<setCount; i++) {
+	        $scope.data.push("Item "+i);
+	    }
+	};
+		
+
 
 }]);
+
+//We already have a limitTo filter built-in to angular,
+//let's make a startFrom filter
+mtgApp.filter('startFrom', function() {
+    return function(input, start) {
+        start = +start; //parse to int
+        return input.slice(start);
+    }
+});
+
 
 

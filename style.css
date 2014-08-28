@@ -24,7 +24,7 @@ header h1{
 	width:auto;
 	margin:0px;
 	display:inline-block;
-	line-height:70px;
+	line-height:50px;
 	text-transform: uppercase;
 	margin-left:20px;
 	vertical-align:top;
@@ -32,13 +32,12 @@ header h1{
 	font-weight:bold;
 }
 header div#searchContainer{
-	width:300px;
+	width:200px;
 	display:inline-block;
 	top:0px;
 	right:0px;
-	line-height:70px;
-	float:right;
-	margin-right:20px;
+	vertical-align:top;
+	margin:20px 20px 0px;
 }
 header div#searchContainer #cardQuery{
 	float:none;
@@ -50,15 +49,14 @@ section{
 	width:90%;
 	margin:0px auto;
 }
-#setSelectContainer #setSelectField{
-	display:inline-block;
-	width:300px;
-	vertical-align:top;
-	margin-bottom:0px;
-}
 .form-control{
 	height:28px;
 	padding:0px 6px;
+}
+header .input-group-btn button{
+	height:28px;
+	line-height:28px;
+	padding:0px 12px;
 }
 #cardType{
 	width:110px;
@@ -66,13 +64,29 @@ section{
 #cardSubtype{
 	width:110px;
 }
-#setSelectContainer #setSelectTitle{
+#setTitleContainer #setSelectTitle{
 	display:inline-block;
 	vertical-align:top;
-	float:right;
+	float:left;
 }
-#setSelectContainer #setSelectTitle h2{
+#setTitleContainer #setSelectTitle h2{
 	margin-top:0px;
+	margin-bottom:0px;
+}
+#setSelectContainer{
+	display:inline-block;
+	width:300px;
+	margin-top:20px;
+	margin-bottom:0px;
+
+}
+#setSelectContainer #setSelectField{
+	line-height:50px;
+	margin-bottom:0px;
+	height:50px;
+}
+#setTitleContainer #paginationButtons{
+	float:right;
 }
 ul{
 	text-align:center;
@@ -110,11 +124,13 @@ li.cardListItem{
 	width:80%;
 	top:10%;
 }
-.modal-dialog #largeCardImageContainer{
-	width:48%;
-	display:inline-block;
-	vertical-align:top;
-	text-align:center;
+.modal-dialog #largeCardImageContainer {
+    height: 100%;
+    min-height: 409px;
+    min-width: 250px;
+    position: relative;
+    display:inline-block;
+    width:48%;
 }
 .modal-dialog #extraInfoContainer{
 	width:48%;
@@ -134,12 +150,15 @@ li.cardListItem{
 	padding-top:5px;
 	font-size:.9em;
 }
-.modal-dialog #largeCardImageContainer{
-	min-width:250px;
-}
-.modal-dialog #largeCardImage{
-	max-width:400px;
-	width:100%;
+
+.modal-dialog #largeCardImage {
+    left: 50%;
+    margin-left: -110px;
+    margin-top: -155px;
+    max-width: 223px;
+    position: absolute;
+    top: 50%;
+    width: 100%;
 }
 .modal-backdrop{
 	background:rgba(255,255,255,.7);
