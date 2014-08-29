@@ -90,8 +90,8 @@ mtgApp.controller('cardsterCtrl',['$scope','$http', 'mtgFactory', '$timeout', fu
 		$scope.selectedSet = set;
 		console.log($scope.selectedSet);
 		var selectedSetId = returnSetId($scope.selectedSet);
-		
 		mtgFactory.getMtgData(selectedSetId).then(handleAllCards);
+		resetPagination();
 	};
 
 	var returnSetId = function(name){
@@ -130,7 +130,8 @@ mtgApp.controller('cardsterCtrl',['$scope','$http', 'mtgFactory', '$timeout', fu
 	
 	$scope.getCard = function(card){
 		$scope.card = card;
-		mtgFactory.getCard(card).then(handleSpecificCard)
+		mtgFactory.getCard(card).then(handleSpecificCard);
+		resetPagination();
 	};
 
 	$scope.launchModal = function(cardId){
@@ -179,7 +180,10 @@ mtgApp.controller('cardsterCtrl',['$scope','$http', 'mtgFactory', '$timeout', fu
 	        $scope.data.push("Item "+i);
 	    }
 	};
-		
+
+	$scope.resetPagination = function(){
+		return $scope.currentPage = 0;
+	}	
 
 
 }]);

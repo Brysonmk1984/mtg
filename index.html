@@ -39,12 +39,12 @@
 		</header>
 		<form class="form-inline well">
 			<div class="form-group">
-			    <input class="form-control" id="searchQuery" type="text" placeholder="Filter by Name" ng-model="searchQuery.name">
+			    <input class="form-control" id="searchQuery" type="text" placeholder="Filter by Name" ng-model="searchQuery.name" ng-change="resetPagination()">
 			</div>
 			<div class="form-group">
 			    <div class="input-group">
 			      	<div class="input-group-addon">Mana Color:</div>
-			      	<select class="form-control"id="manaType" ng-model="filterColor.colors" >
+			      	<select class="form-control"id="manaType" ng-model="filterColor.colors" ng-change="resetPagination()">
 						<option value="">All</option>
 						<option value="Black">Black</option>
 						<option value="Blue">Blue</option>
@@ -58,7 +58,7 @@
 			<div class="form-group">
 			    <div class="input-group">
 			      	<div class="input-group-addon">Card Rarity:</div>
-			      	<select id="cardAttributes" class="form-control" ng-model="filterRarity">
+			      	<select id="cardAttributes" class="form-control" ng-model="filterRarity" ng-change="resetPagination()">
 			      		<option value="">All</option>
 			      		<option>Common</option>
 			      		<option>Uncommon</option>
@@ -73,7 +73,7 @@
 			<div class="form-group">
 			    <div class="input-group">
 			      	<div class="input-group-addon">Card Type</div>
-			      	<select id="cardType" class="form-control" ng-model="filterType.type">
+			      	<select id="cardType" class="form-control" ng-model="filterType.type" ng-change="resetPagination()">
 							<option value="">All</option>
 							<option ng-repeat="item in mtgCardType">{{item}}</option>
 						</select>
