@@ -14,6 +14,7 @@ body{
 	padding:0px;
 }
 div#wrapper{
+	background:black;
 }
 header{
 	background:black;
@@ -48,6 +49,12 @@ header div#searchContainer .form-group{
 section{
 	width:90%;
 	margin:0px auto;
+	background: black url("images/mtgGraphic.jpg") fixed no-repeat center top;
+	background-color:black !important;
+
+	min-height:1250px;
+	border:none !important;
+	
 }
 .form-control{
 	height:28px;
