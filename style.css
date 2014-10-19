@@ -282,6 +282,9 @@ footer .disclaimer{
 		background-size: auto 100%;
 	}
 }
+.mana_color{
+	text-transform: capitalize;
+}
 @media (max-width:530px){
 	header{
 		height:auto;

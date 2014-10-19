@@ -1,4 +1,5 @@
 var mtgApp = angular.module('mtgApp', []);
+
 mtgApp.factory('mtgFactory', function($http){
 	var factory = {};
 	// SERVICE - AUTO - Gets all card sets
@@ -43,10 +44,12 @@ mtgApp.controller('cardsterCtrl',['$scope','$http', 'mtgFactory', '$timeout', fu
 	var handleCardSet = function(data,status){
 		$scope.mtgCardSet = data;
 		var latestSetNum = $scope.mtgCardSet.length -1;
+		$scope.random = $scope.mtgCardSet[latestSetNum].name;
 		//console.log($scope.mtgCardSet);
 		var latestSetId = $scope.mtgCardSet[latestSetNum].id;
 		//console.log(latestSetId);
 		$scope.loadingSpinner = true;
+
 		mtgFactory.getMtgData(latestSetId).then(handleAllCards);
 		
 	};
@@ -117,26 +120,28 @@ mtgApp.controller('cardsterCtrl',['$scope','$http', 'mtgFactory', '$timeout', fu
 		resetPagination();
 	};
 
-	// Functionality for mode card info modal
+	// Functionality for more card info modal
 	$scope.launchModal = function(cardId){
 		$scope.loadingSpinner = true;
 		$scope.cardId = cardId;
 		var clickedCardInfo = returnCardInfo($scope.cardId);
 		$scope.cardInfo = clickedCardInfo;
 		$scope.cardName = $scope.cardInfo.name;
+		//$scope.cardInfo.description = $scope.cardInfo.description.replace(/\{|}/g,' ');
 		//console.log($scope.cardName);
-		$scope.cardPrice; 
-		mtgFactory.getCardPrice($scope.cardName).
-    success(function(data, status, headers, config) {
-      // this callback will be called asynchronously
-      // when the response is available
-    }).
-    error(function(data, status, headers, config) {
-      console.log(data);
-      console.log(status);
-      console.log(headers);
-      console.log(config);
-    }).then(handleCardPrice);
+		console.log($scope.cardInfo);
+
+		/*mtgFactory.getCardPrice($scope.cardName)
+    	.success(function(data, status, headers, config) {
+      	this callback will be called asynchronously
+      	when the response is available
+	    }).
+	    error(function(data, status, headers, config) {
+	      console.log(data);
+	      console.log(status);
+	      console.log(headers);
+	      console.log(config);
+	    }).then(handleCardPrice);*/
 		
 
 		$("#largeCardImageContainer").html('<img id="largeCardImage" src="http://api.mtgdb.info/content/hi_res_card_images/'+ $scope.cardId +'.jpg"/>');
@@ -169,10 +174,12 @@ mtgApp.controller('cardsterCtrl',['$scope','$http', 'mtgFactory', '$timeout', fu
 	$scope.resetPagination = function(){
 		return $scope.currentPage = 0;
 	}	
-
-
+	
+	// setTimeout(function(){
+	// 	console.log($scope.random[0].value);
+	// },4000)
 }]);
-
+	
 //We already have a limitTo filter built-in to angular,
 //let's make a startFrom filter
 mtgApp.filter('startFrom', function() {

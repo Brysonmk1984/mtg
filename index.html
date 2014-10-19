@@ -171,7 +171,7 @@
 		      			<div id="modalCardType" class="modalCardInfo text-center"><strong>{{cardInfo.type}} {{cardInfo.subType}}</strong></div>
 		      			<div class="well">
 			      			
-			      			<div id="modalCardColors" class="modalCardInfo"><strong>Colors:</strong>{{cardInfo.colors}}</div>
+			      			<div id="modalCardColors" class="modalCardInfo"><strong>Colors:</strong><span class="mana_color" ng-repeat="item in cardInfo.colors"> {{item}}{{$last ? '' : ', '}}</span></div>
 			      			<div id="modalCardPT" class="modalCardInfo"><strong>Power / Toughness:</strong> {{cardInfo.power}} / {{cardInfo.toughness}}</div>
 			      			
 			      			<div id="modalCardDescription" class="modalCardInfo">
