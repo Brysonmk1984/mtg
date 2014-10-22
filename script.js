@@ -20,6 +20,10 @@ mtgApp.factory('mtgFactory', function($http){
 	factory.getCard = function(card){
 		return $http.get('http://api.mtgdb.info/search/'+ card +'?start=0&limit=0');
 	};
+	//SERVICE - MANUAL - Get specific card price
+	factory.getPrice = function(cardConvertedName){
+		return $http.get('https://api.deckbrew.com/mtg/cards/'+cardConvertedName);
+	}
 	// SERVICE - MANUAL - Gets a specific card price
 	// factory.getCardPrice = function(cardName){
 	// 	var myUrl = 'http://magictcgprices.appspot.com/api/tcgplayer/price.json?cardname='+cardName+'&callback=JSON_CALLBACK';
@@ -80,8 +84,8 @@ mtgApp.controller('cardsterCtrl',['$scope','$http', 'mtgFactory', '$timeout', fu
 		handleAllCards($scope.mtgCard);
 	};
 
-	var handleCardPrice = function(data,status){alert(1);
-		$scope.mtgCardPrice = data;
+	var handleCardPrice = function(data,status){
+		$scope.mtgCardPrice = data.editions[0].price;
 		console.log($scope.mtgCardPrice);
 	};
 
@@ -122,6 +126,11 @@ mtgApp.controller('cardsterCtrl',['$scope','$http', 'mtgFactory', '$timeout', fu
 
 	// Functionality for more card info modal
 	$scope.launchModal = function(cardId){
+
+	
+		
+		
+
 		$scope.loadingSpinner = true;
 		$scope.cardId = cardId;
 		var clickedCardInfo = returnCardInfo($scope.cardId);
@@ -130,18 +139,12 @@ mtgApp.controller('cardsterCtrl',['$scope','$http', 'mtgFactory', '$timeout', fu
 		//$scope.cardInfo.description = $scope.cardInfo.description.replace(/\{|}/g,' ');
 		//console.log($scope.cardName);
 		console.log($scope.cardInfo);
+		console.log($scope.cardInfo.name);
+		var cardConvertedName = $scope.cardInfo.name.replace(/ /g,"-").replace(/'|,/g,"").toLowerCase();
+		console.log(cardConvertedName);
 
-		/*mtgFactory.getCardPrice($scope.cardName)
-    	.success(function(data, status, headers, config) {
-      	this callback will be called asynchronously
-      	when the response is available
-	    }).
-	    error(function(data, status, headers, config) {
-	      console.log(data);
-	      console.log(status);
-	      console.log(headers);
-	      console.log(config);
-	    }).then(handleCardPrice);*/
+		mtgFactory.getPrice(cardConvertedName).success(handleCardPrice);
+		
 		
 
 		$("#largeCardImageContainer").html('<img id="largeCardImage" src="http://api.mtgdb.info/content/hi_res_card_images/'+ $scope.cardId +'.jpg"/>');

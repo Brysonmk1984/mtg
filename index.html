@@ -28,7 +28,7 @@
 					<div id="setSelectField" class="form-group">
 					    <div class="input-group">
 					      	<div class="input-group-addon">Select Set</div>
-					      	<select class="form-control" id="selectSet" ng-model="random" ng-options="poop.name as poop.name  for poop in mtgCardSet | orderBy : 'releasedAt' : true" ng-change="selectSet(random)" autofocus>
+					      	<select class="form-control" id="selectSet" ng-model="random" ng-options="poop.name as poop.name  for poop in mtgCardSet | orderBy : 'releasedAt' : true" ng-change="selectSet(random)"  autofocus>
 							</select>
 					    </div>
 					</div>
@@ -184,6 +184,11 @@
 			      			<div id="modalCardPrices" class="modalCardInfo">{{cardInfo.cardPrice}}</div>
 			      			<br>
 			      			<div id="modalCardFlavor" class="modalCardInfo text-center" ng-show="cardInfo.flavor.length"><em>{{cardInfo.flavor}}</em></div>
+			      			<div id="modalCardPrice" class="modalCardInfo">
+			      				<strong>High:</strong> ${{mtgCardPrice.high/100}}
+			      				<strong> Median:</strong> ${{mtgCardPrice.median/100}}
+			      				<strong> Low:</strong> ${{mtgCardPrice.low/100}}
+			      			</div>
 			      		</div>
 		      		</div>
 		      	</div>
