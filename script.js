@@ -24,12 +24,6 @@ mtgApp.factory('mtgFactory', function($http){
 	factory.getPrice = function(cardConvertedName){
 		return $http.get('https://api.deckbrew.com/mtg/cards/'+cardConvertedName);
 	}
-	// SERVICE - MANUAL - Gets a specific card price
-	// factory.getCardPrice = function(cardName){
-	// 	var myUrl = 'http://magictcgprices.appspot.com/api/tcgplayer/price.json?cardname='+cardName+'&callback=JSON_CALLBACK';
-	// 	console.log(myUrl);
-	// 	return $http.jsonp(myUrl);
-	// };
 	 return factory;
 });
 
@@ -127,21 +121,20 @@ mtgApp.controller('cardsterCtrl',['$scope','$http', 'mtgFactory', '$timeout', fu
 	// Functionality for more card info modal
 	$scope.launchModal = function(cardId){
 
-	
-		
-		
-
 		$scope.loadingSpinner = true;
 		$scope.cardId = cardId;
 		var clickedCardInfo = returnCardInfo($scope.cardId);
 		$scope.cardInfo = clickedCardInfo;
-		$scope.cardName = $scope.cardInfo.name;
+
+
+	
+
 		//$scope.cardInfo.description = $scope.cardInfo.description.replace(/\{|}/g,' ');
 		//console.log($scope.cardName);
-		console.log($scope.cardInfo);
-		console.log($scope.cardInfo.name);
+		//console.log($scope.cardInfo);
+		//console.log($scope.cardInfo.name);
 		var cardConvertedName = $scope.cardInfo.name.replace(/ /g,"-").replace(/'|,/g,"").toLowerCase();
-		console.log(cardConvertedName);
+		//console.log(cardConvertedName);
 
 		mtgFactory.getPrice(cardConvertedName).success(handleCardPrice);
 		

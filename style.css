@@ -28,6 +28,10 @@ header{
 	width:100%;
 	min-height:70px;
 }
+header img{
+	margin-top:15px;
+	margin-left:15px;
+}
 
 header div#searchContainer{
 	width:200px;
@@ -43,11 +47,14 @@ header div#searchContainer #cardQuery{
 header div#searchContainer .form-group{
 	margin-bottom:0px;
 }
+form strong.ng-binding{
+	color:white;
+}
 .secondary_controls{
-	background:white;
+	background:rgba(255,255,255,.1);
 	padding:0px 10px 10px;
-	border-top:solid 1px rgb(255,26,0);
-	border-bottom:solid 1px rgb(255,26,0);
+	border-top:solid 2px #C16F49;
+	border-bottom:solid 2px #C16F49;
 }
 .secondary_controls .form-group{
 	margin-top:10px;
@@ -155,6 +162,7 @@ li.cardListItem{
 }
 .modal-dialog{
 	width:80%;
+	max-width:700px;
 	top:10%;
 }
 .modal-dialog #largeCardImageContainer {
