@@ -2,36 +2,59 @@
 <html ng-app="mtgApp">
 <head>
 	<title>MTG Cardster</title>
+	<meta name="viewport" content="width=device-width, initial-scale=.75, maximum-scale=.75">
 	<link rel="stylesheet" type="text/css" href="http://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.2.0/css/bootstrap.css">
 	<link rel="stylesheet" type="text/css" href="style.css">
 	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 	<script src="http://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.2.0/js/bootstrap.min.js"></script>
 	<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.21/angular.min.js"></script>
+	<script>
+	  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
+	  ga('create', 'UA-32510846-2', 'auto');
+	  ga('send', 'pageview');
+
+	</script>
 </head>
-<body>
-	<div ng-controller="cardsterCtrl">
-		<h1>MTG Cardster</h1>
-		<div>
-			<form class="form-inline">
-				<div>
-					<div class="form-group">
+<body ng-controller="cardsterCtrl">
+	<div id="wrapper" >
+		<header class="clearfix">
+			<img src="images/cardsterLogo.png" />
+			<div class="pull-right">
+				<div id="setSelectContainer">
+					<div id="setSelectField" class="form-group">
 					    <div class="input-group">
 					      	<div class="input-group-addon">Select Set</div>
-					      	<select class="form-control" id="selectSet" ng-model="filterSubtype.subType" ng-change="change()" autofocus>
-								<option value="">All</option>
-								<option ng-repeat="item in mtgCardSet">{{item.name}}</option>
+					      	<select class="form-control" id="selectSet" ng-model="random" ng-options="poop.name as poop.name  for poop in mtgCardSet | orderBy : 'releasedAt' : true" ng-change="selectSet(random)"  autofocus>
 							</select>
 					    </div>
 					</div>
+
 				</div>
+				<div id="searchContainer">
+					<div class="form-group">					
+						<div class="input-group">
+						    <input class="form-control" id="cardQuery" type="text" placeholder="Search for Card" ng-model="cardName">
+						    <span ng-click="getCard(cardName)" class="input-group-btn">
+				            	<button class="btn btn-default" type="button"><span class="glyphicon glyphicon-search"></span></button>
+				          	</span>
+						</div>
+					</div>
+				</div>
+			</div>
+		</header>
+		<form class="form-inline clearfix secondary_controls">
+			<div class="text-center">
 				<div class="form-group">
-				    <input class="form-control" id="searchQuery" type="text" placeholder="Search by Name" ng-model="searchQuery.name">
+				    <input class="form-control" id="searchQuery" type="text" placeholder="Filter by Name" ng-model="searchQuery.name" ng-change="resetPagination()">
 				</div>
 				<div class="form-group">
 				    <div class="input-group">
-				      	<div class="input-group-addon">Mana Type:</div>
-				      	<select class="form-control"id="manaType" ng-model="filterColor.colors" >
+				      	<div class="input-group-addon">Mana Color:</div>
+				      	<select class="form-control"id="manaType" ng-model="filterColor.colors" ng-change="resetPagination()">
 							<option value="">All</option>
 							<option value="Black">Black</option>
 							<option value="Blue">Blue</option>
@@ -44,26 +67,8 @@
 				</div>
 				<div class="form-group">
 				    <div class="input-group">
-				      	<div class="input-group-addon">Card Type</div>
-				      	<select id="cardType" class="form-control" ng-model="filterType.type">
-  							<option value="">All</option>
-  							<option ng-repeat="item in mtgCardType">{{item}}</option>
-  						</select>
-				    </div>
-				</div>
-				<div class="form-group">
-				    <div class="input-group">
-				      	<div class="input-group-addon">Card Subtype</div>
-				      	<select class="form-control" id="cardSubtype" ng-model="filterSubtype.subType">
-							<option value="">All</option>
-							<option ng-repeat="item in mtgCardSubtype">{{item}}</option>
-						</select>
-				    </div>
-				</div>
-				<div class="form-group">
-				    <div class="input-group">
 				      	<div class="input-group-addon">Card Rarity:</div>
-				      	<select id="cardAttributes" class="form-control" ng-model="filterRarity">
+				      	<select id="cardAttributes" class="form-control" ng-model="filterRarity" ng-change="resetPagination()">
 				      		<option value="">All</option>
 				      		<option>Common</option>
 				      		<option>Uncommon</option>
@@ -74,49 +79,122 @@
 				      		<option>Bonus</option>
 				      	</select>
 				    </div>
-				  </div>
-				<!-- <div>
-					<label for="set">Set:</label>
-					<select id="set">
-						<option selected="selected">All</option>
-						<option>Standard</option>
-						<option>{{}}</option>
-					</select>
+				</div>
+				<div class="form-group">
+				    <div class="input-group">
+				      	<div class="input-group-addon">Card Type</div>
+				      	<select id="cardType" class="form-control" ng-model="filterType.type" ng-change="resetPagination()">
+								<option value="">All</option>
+								<option ng-repeat="item in mtgCardType">{{item}}</option>
+							</select>
+				    </div>
+				</div>
+				<!-- <div class="form-group">
+				    <div class="input-group">
+				      	<div class="input-group-addon">Card Subtype</div>
+				      	<select class="form-control" id="cardSubtype" ng-model="filterType.subType">
+							<option value="">All</option>
+							<option ng-repeat="item in mtgCardSubtype">{{item}}</option>
+						</select>
+				    </div>
 				</div> -->
-				<!-- <div>
-					<label for="abilities">Filter By Abilities:</label>
-					<select id="abilities">
-						<option>Lifesteal</option>
-						<option>Deathtouch</option>
-						<option>Flying</option>
-					</select>
-				</div> -->
-			</form>
-		</div>
-		<!-- <div>
-			<ul class="list-unstyled">
-				<li class="inline_block" ng-repeat="item in mtgData | filter: filterColor | filter: filterRarity | filter: filterType | filter: filterSubtype | filter:searchQuery">
-					<div><img class="card_image" src="http://api.mtgdb.info/content/card_images/383289.jpeg" /></div>
+				<div id="paginationButtons" class="form-group">	
 					
-				</li>
-			</ul>
-		</div> -->
-		<br>
-		<div>
-			<ul class="list-unstyled" ng-model="allCards">
-				<li class="inline_block" ng-repeat="item in mtgData.data">
-				<!-- <li class="inline_block" ng-repeat="item in mtgData.data | filter: filterColor | filter: filterRarity: true | filter: filterType | filter: filterSubtype | filter:searchQuery"> -->
-					<!-- <div>{{item}} {{item.id}}</div> -->
-					<div><img class="card_image" src="http://api.mtgdb.info/content/card_images/{{item.id}}.jpeg" /></div>
+					<button class="btn btn-primary" ng-disabled="currentPage == 0" ng-click="currentPage=currentPage-1">
+					    <span class="glyphicon glyphicon-arrow-left"></span>
+					</button>
+					  <strong>{{currentPage+1}}/{{numberOfPages()}}</strong>
+					<button class="btn btn-primary" ng-disabled="currentPage >= data.length/pageSize - 1" ng-click="currentPage=currentPage+1">
+					    <span class="glyphicon glyphicon-arrow-right"></span>
+					</button>
 					
-				</li>
-			</ul>
+				</div>
+				
+			</div>
+		</form>
+		<section class="panel panel-default">
+			<div class="panel-body">
+				<div id="setTitleContainer" class="clearfix">
+					<div id="setSelectTitle">
+						<h2 ng-model="mtgData">{{mtgData.data[0].cardSetName}}</h2>
+					</div>
+				</div>
+				<div>
+					
+					<ul class="list-unstyled" ng-model="allCards">
+						<li class="cardListItem inline_block" ng-repeat="item in mtgData.data | filter: filterColor | filter: filterRarity: true | filter: filterType | filter: filterSubType | filter:searchQuery | startFrom:currentPage*pageSize | limitTo:pageSize">
+								
+							<img id="{{item.id}}" class="card_image large_image" ng-click="launchModal( item.id )" src="http://api.mtgdb.info/content/card_images/{{item.id}}.jpeg" />
+
+							
+							
+						</li>
+					</ul>
+				</div>
+			</div>
+			
+		</section>
+		<form class="form-inline clearfix secondary_controls text-center">
+			
+				<div id="paginationButtons" class="form-group">	
+					
+					<button class="btn btn-primary" ng-disabled="currentPage == 0" ng-click="currentPage=currentPage-1">
+					    <span class="glyphicon glyphicon-arrow-left"></span>
+					</button>
+					  <strong>{{currentPage+1}}/{{numberOfPages()}}</strong>
+					<button class="btn btn-primary" ng-disabled="currentPage >= data.length/pageSize - 1" ng-click="currentPage=currentPage+1">
+					    <span class="glyphicon glyphicon-arrow-right"></span>
+					</button>
+					
+				</div>
+				
+			</div>
+		</form>
+	</div>
+	<footer class="text-center">
+		<div>&copy; 2014 Bryson Kruk Design &amp; Development</div>
+		<a href="www.brysonkruk.com">www.brysonkruk.com</a> 
+		<div>App data courtesy of <a href="http://api.mtgdb.info/">3xS-Rad</a> and <a href="http://deckbrew.com/">DeckBrew</a>.</div>
+		<div class="disclaimer"><em>All information provided is copyrighted by Wizards of the Coast. This web application is not in any way affiliated with Wizards of the Coast.</em></div> 
+	</footer>
+	<div id="loadingImageContainer" ng-show="loadingSpinner">
+		<img src="images/loader.gif" />
+	</div>
+	<div class="modal" id="cardModal" tabindex="-1" role="dialog" aria-labelledby="cardModal" aria-hidden="true">
+		<div class="modal-dialog">
+		    <div class="modal-content">
+		      	<div class="modal-body">
+		      		<button id="modalClose" type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+		      		<div id="largeCardImageContainer"></div>
+		      		<div id="extraInfoContainer" ng-model="cardInfo">
+		      			<div id="modalCardName" class="modalCardInfo"><strong>{{cardInfo.name}}</strong></div>
+		      			<div id="modalCardType" class="modalCardInfo text-center"><strong>{{cardInfo.type}} {{cardInfo.subType}}</strong></div>
+		      			<div class="well">
+			      			
+			      			<div id="modalCardColors" class="modalCardInfo"><strong>Colors:</strong><span class="mana_color" ng-repeat="item in cardInfo.colors"> {{item}}{{$last ? '' : ', '}}</span></div>
+			      			<div id="modalCardPT" class="modalCardInfo"><strong>Power / Toughness:</strong> {{cardInfo.power}} / {{cardInfo.toughness}}</div>
+			      			
+			      			<div id="modalCardDescription" class="modalCardInfo">
+			      				<strong>Description:</strong>
+			      				<br>
+			      				{{cardInfo.description}}
+			      			</div>
+			      			<div id="modalCardRarity" class="modalCardInfo"><strong>Rarity:</strong> {{cardInfo.rarity}}</div>
+			      			<div id="modalCardSet" class="modalCardInfo"><strong>Set: </strong>{{cardInfo.cardSetId}}</div>
+			      			<div id="modalCardPrices" class="modalCardInfo">{{cardInfo.cardPrice}}</div>
+			      			<br>
+			      			<div id="modalCardFlavor" class="modalCardInfo text-center" ng-show="cardInfo.flavor.length"><em>{{cardInfo.flavor}}</em></div>
+			      			<div id="modalCardPrice" class="modalCardInfo">
+			      				<strong>High:</strong> ${{mtgCardPrice.high/100}}
+			      				<strong> Median:</strong> ${{mtgCardPrice.median/100}}
+			      				<strong> Low:</strong> ${{mtgCardPrice.low/100}}
+			      			</div>
+			      		</div>
+		      		</div>
+		      	</div>
+		    </div>
 		</div>
 	</div>
-
-<!-- <div class="inline_block">{{item.name}} - {{item.colors[0]}}</div> -->
-<script>
-</script>
 <script type="text/javascript" src="script.js"></script>
 </body>
 </html>
