@@ -1,0 +1,1 @@
+[u'\xc6ther Vial', u'Black Vise', u'Isochron Scepter', u'Ivory Tower', u"Jester's Cap", u'Karn, Silver Golem', u'Masticore', u'Memory Jar', u'Mirari', u'Mox Diamond', u"Nevinyrral's Disk", u'Sol Ring', u'Sundering Titan', u'Sword of Body and Mind', u'Zuran Orb']

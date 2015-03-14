@@ -1,0 +1,1 @@
+[u'Armageddon', u'Burning of Xinye', u'Cataclysm', u'Child of Alara', u'Decree of Annihilation', u'Firespout', u'Fracturing Gust', u'Living Death', u'Martial Coup', u'Rolling Earthquake', u'Smokestack', u'Terminus', u'Upheaval', u"Virtue's Ruin", u'Wrath of God']
