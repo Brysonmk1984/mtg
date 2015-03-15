@@ -20,10 +20,17 @@ mtgApp.factory('mtgFactory', function($http){
 	factory.getCard = function(card){
 		return $http.get('http://api.mtgdb.info/search/'+ card +'?start=0&limit=0');
 	};
+	//SERVICE - AUTO - Get specific card price
+	factory.getPriceJson = function(){
+		return $http.get('/mtg/backend/master_prices.json');
+		
+	};
+	/*
 	//SERVICE - MANUAL - Get specific card price
 	factory.getPrice = function(cardConvertedName){
-		return $http.get('https://api.deckbrew.com/mtg/cards/'+cardConvertedName);
-	}
+		return $http.get('/mtg/backend/master_prices.json');
+		
+	};*/
 	 return factory;
 });
 
@@ -73,14 +80,17 @@ mtgApp.controller('cardsterCtrl',['$scope','$http', 'mtgFactory', '$timeout', fu
 	// Another Ajax call to get card types
 	mtgFactory.getMtgCardTypes().success(handleCardTypes);
 
+	var handlePriceObject = function(data,status){
+		cardPriceObj = data;
+		console.log(data);
+		console.log(111,cardPriceObj);
+	};
+	//AJAX call to get local json object
+	mtgFactory.getPriceJson().success(handlePriceObject);
+
 	var handleSpecificCard = function(data,status){
 		$scope.mtgCard = data;
 		handleAllCards($scope.mtgCard);
-	};
-
-	var handleCardPrice = function(data,status){
-		$scope.mtgCardPrice = data.editions[0].price;
-		console.log($scope.mtgCardPrice);
 	};
 
 	// Utility function to return the set id based on its name
@@ -117,7 +127,14 @@ mtgApp.controller('cardsterCtrl',['$scope','$http', 'mtgFactory', '$timeout', fu
 		mtgFactory.getCard(card).then(handleSpecificCard);
 		resetPagination();
 	};
-
+	/* JSON data */
+	var cardPriceObj;
+	var getSpecificPrice = function(set,card){
+		//console.log(card);
+		$scope.mtgCardPrice = cardPriceObj[set][card];
+		console.log(222, $scope.mtgCardPrice)
+	};
+	
 	// Functionality for more card info modal
 	$scope.launchModal = function(cardId){
 
@@ -127,7 +144,7 @@ mtgApp.controller('cardsterCtrl',['$scope','$http', 'mtgFactory', '$timeout', fu
 		$scope.cardInfo = clickedCardInfo;
 
 
-	
+		
 
 		//$scope.cardInfo.description = $scope.cardInfo.description.replace(/\{|}/g,' ');
 		//console.log($scope.cardName);
@@ -136,9 +153,10 @@ mtgApp.controller('cardsterCtrl',['$scope','$http', 'mtgFactory', '$timeout', fu
 		var cardConvertedName = $scope.cardInfo.name.replace(/ /g,"-").replace(/'|,/g,"").toLowerCase();
 		//console.log(cardConvertedName);
 
-		mtgFactory.getPrice(cardConvertedName).success(handleCardPrice);
+	
+		//console.log(cardPriceObj);
 		
-		
+		getSpecificPrice($scope.cardInfo.cardSetName, $scope.cardInfo.name);
 
 		$("#largeCardImageContainer").html('<img id="largeCardImage" src="http://api.mtgdb.info/content/hi_res_card_images/'+ $scope.cardId +'.jpg"/>');
 		$timeout(function(){

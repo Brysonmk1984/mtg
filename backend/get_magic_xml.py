@@ -21,7 +21,7 @@ for card_set in combined_set_list:
 	python_set_list = list(eval(combined_set_list[card_set]))
 	#print python_set_list
 	
-	card_object_list = []
+	card_object_list = {}
 	#FOR EARCH CARD IN SET
 	for card in python_set_list:
 		#ATEMPT TO GET CARD INFO FROM TCGPLAYER	
@@ -31,7 +31,7 @@ for card_set in combined_set_list:
 			file.close()
 			#parse the xml you downloaded
 			dom = parseString(data)
-			elements = ['id','hiprice','lowprice','avgprice','foilavgprice']
+			elements = ['avgprice','foilavgprice']
 			json_data = {'name' : card}
 	
 			#FOR EARCH ELEMENT IN CARD DOCUMENT
@@ -40,7 +40,7 @@ for card_set in combined_set_list:
 				#strip off the tag (<tag>data</tag>  --->   data):
 				data = tag.replace('<'+ e +'>','').replace('</'+ e +'>','')
 				json_data[e] = data
-			card_object_list.append(json_data)
+			card_object_list[card] = json_data
 			print card
 		except:
 			print "FAILED: " + card
@@ -48,9 +48,9 @@ for card_set in combined_set_list:
 
 	#APPEND THE SET DATA TO THE MASTER OBJECT
 	full_complete_object[name_map[card_set]] = card_object_list
-
+	print full_complete_object
 
 #print full_complete_object
 f = open('master_prices.json', 'w')
 f.write(json.dumps(full_complete_object))
-f.close()			
+f.close()	
