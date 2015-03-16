@@ -1,1 +1,0 @@
-[u'Blood Knight', u'Bramblewood Paragon', u'Doran, the Siege Tower', u'Electrolyze', u'Groundbreaker', u'Imperious Perfect', u'Mutavault', u'Niv-Mizzet, the Firemind', u'Rakdos Guildmage', u'Serra Avenger', u"Urza's Factory", u'Voidslime']

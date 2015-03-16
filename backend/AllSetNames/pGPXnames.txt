@@ -1,1 +1,0 @@
-[u'All Is Dust', u'Batterskull', u'Call of the Herd', u'Chrome Mox', u'Goblin Guide', u'Lotus Cobra', u'Maelstrom Pulse', u'Primeval Titan', u'Spiritmonger', u"Umezawa's Jitte"]

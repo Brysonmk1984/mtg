@@ -1,1 +1,0 @@
-[u'Bull Elephant', u'Dark Privilege', u'King Cheetah', u'Necrosavant', u'Ovinomancer', u'Peace Talks', u'Urborg Mindsucker', u'Vampirism', u'Viashino Sandstalker', u'Wicked Reward']

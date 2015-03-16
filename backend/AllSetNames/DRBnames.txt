@@ -1,1 +1,0 @@
-[u'Bladewing the Risen', u'Bogardan Hellkite', u'Draco', u'Dragon Whelp', u'Dragonstorm', u'Ebon Dragon', u'Form of the Dragon', u'Hellkite Overlord', u'Kokusho, the Evening Star', u'Nicol Bolas', u'Niv-Mizzet, the Firemind', u'Rith, the Awakener', u'Shivan Dragon', u'Thunder Dragon', u'Two-Headed Dragon']

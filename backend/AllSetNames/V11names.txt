@@ -1,1 +1,0 @@
-[u'Cao Cao, Lord of Wei', u'Captain Sisay', u'Doran, the Siege Tower', u'Kiki-Jiki, Mirror Breaker', u'Kresh the Bloodbraided', u'Mikaeus, the Lunarch', u'Omnath, Locus of Mana', u'Oona, Queen of the Fae', u'Progenitus', u'Rafiq of the Many', u'Sharuum the Hegemon', u'Sun Quan, Lord of Wu', u'Teferi, Mage of Zhalfir', u'Ulamog, the Infinite Gyre', u'Visara the Dreadful']

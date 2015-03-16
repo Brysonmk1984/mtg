@@ -1,1 +1,0 @@
-[u'Ancient Tomb', u'Boseiju, Who Shelters All', u'Cephalid Coliseum', u'Desert', u'Dryad Arbor', u'Forbidden Orchard', u'Glacial Chasm', u'Grove of the Burnwillows', u'High Market', u'Maze of Ith', u'Murmuring Bosk', u'Shivan Gorge', u'Urborg, Tomb of Yawgmoth', u'Vesuva', u'Windbrisk Heights']

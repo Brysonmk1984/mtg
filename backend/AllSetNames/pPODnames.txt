@@ -1,1 +1,0 @@
-[u'Armored Pegasus', u'Bull Hippo', u'Cloud Pirates', u'Feral Shadow', u'Snapping Drake', u'Storm Crow']

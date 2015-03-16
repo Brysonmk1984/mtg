@@ -1,1 +1,0 @@
-[u"Ass Whuppin'", u'Azorius Guildmage', u'Budoka Pupil', u'Dimir Guildmage', u'Force of Nature', u'Ghost-Lit Raider', u'Gruul Guildmage', u'Hedge Troll', u'Ichiga, Who Topples Oaks', u'Rukh Egg', u'Shivan Dragon', u'Shriekmaw', u'Storm Entity', u'Sudden Shock']

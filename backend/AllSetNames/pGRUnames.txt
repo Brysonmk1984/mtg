@@ -1,1 +1,0 @@
-[u'Forest', u'Island', u'Mountain', u'Plains', u'Swamp']
