@@ -22,7 +22,7 @@ mtgApp.factory('mtgFactory', function($http){
 	};
 	//SERVICE - AUTO - Get specific card price
 	factory.getPriceJson = function(){
-		return $http.get('/mtg/backend/master_prices.json');
+		return $http.get('/backend/master_prices.json');
 		
 	};
 	/*
@@ -48,6 +48,7 @@ mtgApp.controller('cardsterCtrl',['$scope','$http', 'mtgFactory', '$timeout', fu
 	/* Gets the data of the latest set, then  handles the data */
 	var handleCardSet = function(data,status){
 		$scope.mtgCardSet = data;
+		console.log($scope.mtgCardSet);
 		var latestSetNum = $scope.mtgCardSet.length -1;
 		$scope.random = $scope.mtgCardSet[latestSetNum].name;
 		//console.log($scope.mtgCardSet);
