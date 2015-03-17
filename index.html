@@ -167,12 +167,15 @@
 		      		<button id="modalClose" type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
 			      	<div style="width:48%; float:left;">	
 			      		<div id="largeCardImageContainer"></div>
+			      		<div id="modalCardPrice" class="modalCardInfo">
+			      			<span><strong>Average:</strong> ${{mtgCardPrice.avgprice}}</span>
+			      			<span><strong> Foil:</strong> ${{mtgCardPrice.foilavgprice}}</span>
+			      		</div>
 			      	</div>
 		      		<div id="extraInfoContainer" ng-model="cardInfo">
 		      			<div id="modalCardName" class="modalCardInfo"><strong>{{cardInfo.name}}</strong></div>
 		      			<div id="modalCardType" class="modalCardInfo text-center"><strong>{{cardInfo.type}} {{cardInfo.subType}}</strong></div>
 		      			<div class="well">
-			      			
 			      			<div id="modalCardColors" class="modalCardInfo"><strong>Colors:</strong><span class="mana_color" ng-repeat="item in cardInfo.colors"> {{item}}{{$last ? '' : ', '}}</span></div>
 			      			<div id="modalCardPT" class="modalCardInfo"><strong>Power / Toughness:</strong> {{cardInfo.power}} / {{cardInfo.toughness}}</div>
 			      			
@@ -182,14 +185,8 @@
 			      				{{cardInfo.description}}
 			      			</div>
 			      			<div id="modalCardRarity" class="modalCardInfo"><strong>Rarity:</strong> {{cardInfo.rarity}}</div>
-			      			<div id="modalCardSet" class="modalCardInfo"><strong>Set: </strong>{{cardInfo.cardSetId}}</div>
-			      			<div id="modalCardPrices" class="modalCardInfo">{{cardInfo.cardPrice}}</div>
-			      			<br>
+			      			<div id="modalCardSet" class="modalCardInfo"><strong>Set: </strong>{{cardInfo.cardSetName}}</div>
 			      			<div id="modalCardFlavor" class="modalCardInfo text-center" ng-show="cardInfo.flavor.length"><em>{{cardInfo.flavor}}</em></div>
-			      			<div id="modalCardPrice" class="modalCardInfo">
-				      			<strong> Average:</strong> ${{mtgCardPrice.avgprice}}
-				      			<strong> Foil:</strong> ${{mtgCardPrice.foilavgprice}}
-				      		</div>
 			      		</div>
 		      		</div>
 		      	</div>

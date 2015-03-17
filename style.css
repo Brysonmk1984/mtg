@@ -167,11 +167,10 @@ li.cardListItem{
 }
 .modal-dialog #largeCardImageContainer {
     height: 100%;
-    min-height: 409px;
+    min-height: 309px;
     min-width: 250px;
     position: relative;
-    display:inline-block;
-    width:48%;
+    margin:30px auto;
 }
 .modal-dialog #extraInfoContainer{
 	width:48%;
@@ -225,6 +224,16 @@ li.cardListItem{
 	text-align:center;
 	width:100%;
 	border-bottom:solid 1px gray;
+}
+#modalCardPrice{
+	min-width:250px;
+	text-align:center;
+}
+#modalCardPrice span{
+	display:inline-block;
+}
+#modalCardPrice span:first-child{
+	margin-right:20px;
 }
 .well{
 	background-color:#f9f9f9;

@@ -167,7 +167,7 @@ mtgApp.controller('cardsterCtrl',['$scope','$http', 'mtgFactory', '$timeout', fu
 
 
 	
-
+		console.log($scope.cardInfo);
 		
 	};
 	
