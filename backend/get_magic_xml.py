@@ -5,7 +5,6 @@ import json
 from xml.dom.minidom import parseString
 
 #OPEN NAME FILE, LOOP THROUGH AND GET DATA, SAVE TO magic_data.json FILE
-
 combinedFile = open('magic_data_names_two.json')
 combined_set_list = json.loads(combinedFile.read())
 combinedFile.close()
@@ -55,7 +54,6 @@ for card_set in combined_set_list:
 					print "FAILED: " + card
 					failed_card_count += failed_card_count
 					continue
-
 		#APPEND THE SET DATA TO THE MASTER OBJECT
 		full_complete_object[name_map[card_set]] = card_object_list
 		#print full_complete_object
