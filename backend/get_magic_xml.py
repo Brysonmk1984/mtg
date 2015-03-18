@@ -1,3 +1,4 @@
+#!/usr/bin/python2.7
 # -*- coding: utf-8 -*-
 import urllib2
 import urllib
@@ -5,7 +6,7 @@ import json
 from xml.dom.minidom import parseString
 
 #OPEN NAME FILE, LOOP THROUGH AND GET DATA, SAVE TO magic_data.json FILE
-combinedFile = open('magic_data_names_full.json.')
+combinedFile = open('magic_data_names_full.json')
 combined_set_list = json.loads(combinedFile.read())
 combinedFile.close()
 
