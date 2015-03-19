@@ -6,7 +6,7 @@ import json
 from xml.dom.minidom import parseString
 
 #OPEN NAME FILE, LOOP THROUGH AND GET DATA, SAVE TO magic_data.json FILE
-combinedFile = open('magic_data_names_full.json')
+combinedFile = open('magic_data_names_test.json')
 combined_set_list = json.loads(combinedFile.read())
 combinedFile.close()
 
@@ -64,10 +64,10 @@ for card_set in combined_set_list:
 		continue
 
 #print full_complete_object
-f = open('master_prices.json', 'w+')
+f = open('test_prices.json', 'w+')
 f.write(json.dumps(full_complete_object))
 f.close()
 
-log = open('error_log.txt', 'w')
+log = open('error_log.txt', 'w+')
 log.write(str(failed_sets))
 log.close	
