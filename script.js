@@ -41,14 +41,14 @@ mtgApp.controller('cardsterCtrl',['$scope','$http', 'mtgFactory', '$timeout', fu
 		$scope.mtgData = data;
 		$scope.setCount = data.data.length;
 		//console.log($scope.mtgData);
-		$scope.pagination($scope.setCount);
+		$scope.pagination();
 	};
 
 
 	/* Gets the data of the latest set, then  handles the data */
 	var handleCardSet = function(data,status){
 		$scope.mtgCardSet = data;
-		console.log($scope.mtgCardSet);
+		//console.log($scope.mtgCardSet);
 		var latestSetNum = $scope.mtgCardSet.length -1;
 		$scope.random = $scope.mtgCardSet[latestSetNum].name;
 		//console.log($scope.mtgCardSet);
@@ -84,7 +84,7 @@ mtgApp.controller('cardsterCtrl',['$scope','$http', 'mtgFactory', '$timeout', fu
 	var handlePriceObject = function(data,status){
 		cardPriceObj = data;
 		console.log(data);
-		console.log(111,cardPriceObj);
+
 	};
 	//AJAX call to get local json object
 	mtgFactory.getPriceJson().success(handlePriceObject);
@@ -129,11 +129,9 @@ mtgApp.controller('cardsterCtrl',['$scope','$http', 'mtgFactory', '$timeout', fu
 		resetPagination();
 	};
 	/* JSON data */
-	var cardPriceObj;
+	var cardPriceObj = {};
 	var getSpecificPrice = function(set,card){
-		//console.log(card);
 		$scope.mtgCardPrice = cardPriceObj[set][card];
-		console.log(222, $scope.mtgCardPrice)
 	};
 	
 	// Functionality for more card info modal
@@ -170,9 +168,9 @@ mtgApp.controller('cardsterCtrl',['$scope','$http', 'mtgFactory', '$timeout', fu
 		console.log($scope.cardInfo);
 		
 	};
-	
+
 	//Pagination function - Enables pagination on app
-	$scope.pagination = function(setCount){
+	$scope.pagination = function(){//console.log($scope.filteredSet.length);
 		$scope.currentPage = 0;
 	    $scope.pageSize = 50;
 	    $scope.data = [];
@@ -180,7 +178,7 @@ mtgApp.controller('cardsterCtrl',['$scope','$http', 'mtgFactory', '$timeout', fu
 	        return Math.ceil($scope.data.length/$scope.pageSize);                
 	    }
 	    //console.log(setCount);
-	    for (var i=0; i<setCount; i++) {
+	    for (var i=0; i<$scope.setCount; i++) {
 	        $scope.data.push("Item "+i);
 	    }
 	};
@@ -197,12 +195,22 @@ mtgApp.controller('cardsterCtrl',['$scope','$http', 'mtgFactory', '$timeout', fu
 	
 //We already have a limitTo filter built-in to angular,
 //let's make a startFrom filter
+
 mtgApp.filter('startFrom', function() {
     return function(input, start) {
-        start = +start; //parse to int
+    	input = input || [0];
+        start = +start || 0; //parse to int
+        //console.log(input,start);
         return input.slice(start);
     }
 });
+/*
+mtgApp.filter('cardFiltering',function(){
+	return function(input) {
+		console.log(input);
+	   return input;
+	};
+});
 
-
+*/
 
