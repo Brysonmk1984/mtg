@@ -154,8 +154,14 @@ mtgApp.controller('cardsterCtrl',['$scope','$http', 'mtgFactory', '$timeout', fu
 
 	
 		//console.log(cardPriceObj);
+		var setName = $scope.cardInfo.cardSetName;
 		
-		getSpecificPrice($scope.cardInfo.cardSetName, $scope.cardInfo.name);
+		/* Bad naming convention for core sets, this fixes names. */
+		if(setName.indexOf('Magic 20') !== -1){
+			var coreSetYear = setName.substring(8,10);
+			setName = "Magic 20" + coreSetYear + " (m" + coreSetYear + ")";
+		}
+		getSpecificPrice(setName, $scope.cardInfo.name);
 
 		$("#largeCardImageContainer").html('<img id="largeCardImage" src="http://api.mtgdb.info/content/hi_res_card_images/'+ $scope.cardId +'.jpg"/>');
 		$timeout(function(){
