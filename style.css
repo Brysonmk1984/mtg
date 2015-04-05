@@ -283,6 +283,9 @@ footer .disclaimer{
 .modal-backdrop.in{
 	opacity:1;
 }
+#filterToggle{
+	display:none;
+}
 @media (max-width:765px){
 	.form-control{
 		width:100% !important;
@@ -311,6 +314,14 @@ footer .disclaimer{
 		background:url("images/mtgGraphic.jpg") fixed no-repeat center bottom;
 		background-size: auto 100%;
 	}
+	#filterToggle{
+		display:block;
+		margin-top:10px;
+		color:white;
+		cursor:pointer;
+		text-decoration:underline;
+	}
+
 }
 .mana_color{
 	text-transform: capitalize;
@@ -343,5 +354,4 @@ footer .disclaimer{
 		float:none;
 		width:100%;
 	}
-
 }

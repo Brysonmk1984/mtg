@@ -47,7 +47,7 @@
 			</div>
 		</header>
 		<form class="form-inline clearfix secondary_controls">
-			<div class="text-center">
+			<div id="filterContainer" ng-class="{hide : !mobileShowFilters}" class="text-center">
 				<div class="form-group">
 				    <input class="form-control" id="searchQuery" type="text" placeholder="Filter by Name" ng-model="searchQuery.name" ng-change="pagination()"><!-- <input id="filteredCount" type="text" value="{{filteredSet.length}}"> -->
 				</div>
@@ -108,9 +108,9 @@
 					    <span class="glyphicon glyphicon-arrow-right"></span>
 					</button>
 					
-				</div>
-				
+				</div>	
 			</div>
+			<div id="filterToggle" class="text-center" ng-class="{hide : mobileShowFilters}" ng-click="toggleFilters();">Advanced Filters</div>
 		</form>
 		<section class="panel panel-default">
 			<div class="panel-body">
@@ -169,12 +169,13 @@
 			      		<div id="largeCardImageContainer"></div>
 			      		<div id="modalCardPrice" class="modalCardInfo">
 			      			<div id="pricingTitle"><strong><a href="http://shop.tcgplayer.com/magic/{{(cardInfo.cardSetName).replace(' ', '-')}}/{{(cardInfo.name).replace(' ', '-')}}" target="_blank">TCG Player Pricing</a></strong></div>
-			      			<div id="averagePriceContainer" class="inline_block">
+			      			<div id="averagePriceContainer" ng-hide="mtgCardPrice === 'Unavailable'" class="inline_block">
 			      				<span>Average:</span> <span class="text-muted">${{mtgCardPrice.avgprice}}</span>
 			      			</div>
-			      			<div id="foilPriceContainer" class="inline_block">
+			      			<div id="foilPriceContainer" ng-hide="mtgCardPrice === 'Unavailable'" class="inline_block">
 			      				<span>Foil:</span> <span class="text-muted">${{mtgCardPrice.foilavgprice}}</span>
 			      			</div>
+			      			<div ng-show="mtgCardPrice === 'Unavailable'">Unavailable</div>
 			      		</div>
 			      	</div>
 		      		<div id="extraInfoContainer" ng-model="cardInfo">

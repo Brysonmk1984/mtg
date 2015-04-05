@@ -35,6 +35,19 @@ mtgApp.factory('mtgFactory', function($http){
 });
 
 mtgApp.controller('cardsterCtrl',['$scope','$http', 'mtgFactory', '$timeout', function($scope, $http, mtgFactory, $timeout){
+	console.log(window.innerWidth);
+	if(window.innerWidth <= 765){
+		$scope.mobileShowFilters = false;
+	}else{
+		$scope.mobileShowFilters = true;
+	}
+	$scope.toggleFilters = function(){
+		if($scope.mobileShowFilters){
+			$scope.mobileShowFilters = false;console.log($scope.mobileShowFilters);
+		}else{
+			$scope.mobileShowFilters = true;console.log($scope.mobileShowFilters);
+		}
+	};
 	/* This is the callback shared by both  AJAX calls below */
 	var handleAllCards = function(data,status){
 		$scope.loadingSpinner = false
@@ -131,7 +144,11 @@ mtgApp.controller('cardsterCtrl',['$scope','$http', 'mtgFactory', '$timeout', fu
 	/* JSON data */
 	var cardPriceObj = {};
 	var getSpecificPrice = function(set,card){
-		$scope.mtgCardPrice = cardPriceObj[set][card];
+		if(typeof cardPriceObj[set][card] === 'undefined'){
+			$scope.mtgCardPrice = 'Unavailable';
+		}else{
+			$scope.mtgCardPrice = cardPriceObj[set][card];
+		}
 	};
 	
 	// Functionality for more card info modal
