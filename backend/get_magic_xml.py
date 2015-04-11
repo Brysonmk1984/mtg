@@ -6,7 +6,7 @@ import json
 from xml.dom.minidom import parseString
 
 #OPEN NAME FILE, LOOP THROUGH AND GET DATA, SAVE TO magic_data.json FILE
-combinedFile = open('magic_data_names_accurate.json')
+combinedFile = open('/home4/brysonkr/public_html/mtg/backend/magic_data_names_accurate.json')
 combined_set_list = json.loads(combinedFile.read())
 combinedFile.close()
 #Sets that exit in DOM, mapped to set code
@@ -20,15 +20,10 @@ for card_set in combined_set_list:
 		#print type(combined_set_list[card_set])
 		python_set_list = list(eval(combined_set_list[card_set]))
 		#print python_set_list
-		
 		card_object_list = {}
 		#FOR EARCH CARD IN SET
 		
 		for card in python_set_list:
-			if failed_card_count == 30:
-				failed_sets.append(card_set)
-				break
-			else:
 				#ATEMPT TO GET CARD INFO FROM TCGPLAYER	
 				try:
 					file = urllib2.urlopen('http://partner.tcgplayer.com/x3/phl.asmx/p?pk=MTGCARDSTER&s='+urllib.quote(name_map[card_set])+'&p=' + urllib.quote(card))
@@ -50,24 +45,23 @@ for card_set in combined_set_list:
 							continue
 					card_object_list[card] = json_data
 					print card
-					failed_card_count = 0
 				except:
 					print "FAILED: " + card
-					failed_card_count += failed_card_count
 					continue
 		#APPEND THE SET DATA TO THE MASTER OBJECT
 		full_complete_object[name_map[card_set]] = card_object_list
 		#print full_complete_object
+		
 	except:
 		print "SET FAILED: " + card_set
 		failed_sets.append(card_set)
 		continue
 
 #print full_complete_object
-f = open('master_prices.json', 'w+')
+f = open('/home4/brysonkr/public_html/mtg/backend/master_prices.json', 'w+')
 f.write(json.dumps(full_complete_object))
 f.close()
 
-log = open('error_log.txt', 'w+')
+log = open('/home4/brysonkr/public_html/mtg/backend/error_log.txt', 'w+')
 log.write(str(failed_sets))
-log.close	
+log.close

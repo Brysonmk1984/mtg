@@ -33,8 +33,7 @@ header{
 	min-height:70px;
 }
 header img{
-	margin-top:15px;
-	margin-left:15px;
+	position:absolute;
 }
 
 header div#searchContainer{
@@ -124,9 +123,9 @@ header .input-group-btn button{
 
 }
 #setSelectContainer #setSelectField{
-	line-height:50px;
+
 	margin-bottom:0px;
-	height:50px;
+
 	width:250px;
 }
 #setTitleContainer #paginationButtons{
@@ -295,6 +294,10 @@ footer .disclaimer{
 	}
 	header{
 		padding:10px;
+		text-align:center;
+	}
+	header img{
+		position:relative;
 	}
 	header div#searchContainer{
 		width:100%;
