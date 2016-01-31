@@ -28,7 +28,7 @@
 					<div id="setSelectField" class="form-group">
 					    <div class="input-group">
 					      	<div class="input-group-addon">Select Set</div>
-					      	<select class="form-control" id="selectSet" ng-model="random" ng-options="poop.name as poop.name  for poop in mtgCardSet | orderBy : 'releasedAt' : true" ng-change="selectSet(random)"  autofocus>
+					      	<select class="form-control" id="selectSet" ng-model="select.set" ng-options="item.id as item.name for item in setOptions" ng-change="loadSet()"  autofocus>
 							</select>
 					    </div>
 					</div>
@@ -49,44 +49,30 @@
 		<form class="form-inline clearfix secondary_controls">
 			<div id="filterContainer" ng-class="{hide : !mobileShowFilters}" class="text-center">
 				<div class="form-group">
-				    <input class="form-control" id="searchQuery" type="text" placeholder="Filter by Name" ng-model="searchQuery.name" ng-change="pagination()"><!-- <input id="filteredCount" type="text" value="{{filteredSet.length}}"> -->
+				    <input class="form-control" id="searchQuery" type="text" placeholder="Filter by Name" ng-model="searchQuery" ng-change="pagination()">
 				</div>
 				<div class="form-group">
 				    <div class="input-group">
 				      	<div class="input-group-addon">Mana Color:</div>
-				      	<select class="form-control"id="manaType" ng-model="filterColor.colors" ng-change="pagination()">
+				      	<select class="form-control"id="manaType" ng-model="filterColor.colour" ng-change="pagination()" ng-options="item.value as item.label for item in normalize.colors">
 							<option value="">All</option>
-							<option value="Black">Black</option>
-							<option value="Blue">Blue</option>
-							<option value="Green">Green</option>
-							<option value="Red">Red</option>
-							<option value="White">White</option>
-							<option value="None">Colorless</option>
 						</select>
 				    </div>
 				</div>
 				<div class="form-group">
 				    <div class="input-group">
 				      	<div class="input-group-addon">Card Rarity:</div>
-				      	<select id="cardAttributes" class="form-control" ng-model="filterRarity" ng-change="pagination()">
+				      	<select id="cardAttributes" class="form-control" ng-model="filterRarity.rarity" ng-change="pagination()" ng-options="item.value as item.label for item in normalize.rarity">
 				      		<option value="">All</option>
-				      		<option>Common</option>
-				      		<option>Uncommon</option>
-				      		<option>Rare</option>
-				      		<option>Mythic Rare</option>
-				      		<option>Basic Land</option>
-				      		<option>Special</option>
-				      		<option>Bonus</option>
 				      	</select>
 				    </div>
 				</div>
 				<div class="form-group">
 				    <div class="input-group">
-				      	<div class="input-group-addon">Card Type</div>
-				      	<select id="cardType" class="form-control" ng-model="filterType.type" ng-change="pagination()">
+				      	<div class="input-group-addon">Card Type {{filterType}}</div>
+				      	<select id="cardType" class="form-control" ng-model="filterType" ng-change="pagination()" ng-options="item.value as item.label for item in normalize.type">
 								<option value="">All</option>
-								<option ng-repeat="item in mtgCardType">{{item}}</option>
-							</select>
+						</select>
 				    </div>
 				</div>
 				<!-- <div class="form-group">
@@ -122,9 +108,9 @@
 				<div>
 					
 					<ul class="list-unstyled">
-						<li class="cardListItem inline_block" ng-repeat="item in (filteredSet = (mtgData.data | filter: filterColor | filter: filterRarity: true | filter: filterType | filter: filterSubType | filter:searchQuery) | startFrom:currentPage*pageSize | limitTo:pageSize)">
+						<li class="cardListItem inline_block" ng-repeat="item in (filteredSet = (mtgData.data | filter: filterColor | filter: filterRarity | filter: filterType | filter: filterSubType | filter:searchQuery) | startFrom:currentPage*pageSize | limitTo:pageSize)">
 								
-							<img id="{{item.id}}" class="card_image large_image" ng-click="launchModal( item.id )" src="http://api.mtgdb.info/content/card_images/{{item.id}}.jpeg" />
+							<img id="{{item.id}}" class="card_image large_image" ng-click="launchModal(item)" src="{{item.src}}" />
 
 							
 							
@@ -152,9 +138,9 @@
 		</form>
 	</div>
 	<footer class="text-center">
-		<div>&copy; 2015 Bryson Kruk Design &amp; Development</div>
+		<div>&copy; 2016 Bryson Kruk Design &amp; Development</div>
 		<a href="www.brysonkruk.com">www.brysonkruk.com</a> 
-		<div>App data courtesy of <a href="http://www.tcgplayer.com">TCG Player</a>, <a href="http://api.mtgdb.info/">3xS-Rad</a> and <a href="http://deckbrew.com/">DeckBrew</a>.</div>
+		<div>App data courtesy of <a href="http://www.tcgplayer.com">TCG Player</a> and <a href="http://mtgen.net/">Cam Marsollier</a>.</div>
 		<div class="disclaimer"><em>All information provided is copyrighted by Wizards of the Coast. This web application is not in any way affiliated with Wizards of the Coast.</em></div> 
 	</footer>
 	<div id="loadingImageContainer" ng-show="loadingSpinner">
@@ -167,32 +153,27 @@
 		      		<button id="modalClose" type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
 			      	<div id="leftSideContainer">	
 			      		<div id="largeCardImageContainer"></div>
-			      		<div id="modalCardPrice" class="modalCardInfo">
-			      			<div id="pricingTitle"><strong><a href="http://shop.tcgplayer.com/magic/{{(cardInfo.cardSetName).replace(' ', '-')}}/{{(cardInfo.name).replace(' ', '-')}}" target="_blank">TCG Player Pricing</a></strong></div>
-			      			<div id="averagePriceContainer" ng-hide="mtgCardPrice === 'Unavailable'" class="inline_block">
-			      				<span>Average:</span> <span class="text-muted">${{mtgCardPrice.avgprice}}</span>
-			      			</div>
-			      			<div id="foilPriceContainer" ng-hide="mtgCardPrice === 'Unavailable'" class="inline_block">
-			      				<span>Foil:</span> <span class="text-muted">${{mtgCardPrice.foilavgprice}}</span>
-			      			</div>
-			      			<div ng-show="mtgCardPrice === 'Unavailable'">Unavailable</div>
-			      		</div>
 			      	</div>
 		      		<div id="extraInfoContainer" ng-model="cardInfo">
-		      			<div id="modalCardName" class="modalCardInfo"><strong>{{cardInfo.name}}</strong></div>
+		      			<div id="modalCardName" class="modalCardInfo"><strong>{{cardInfo.title}}</strong></div>
 		      			<div id="modalCardType" class="modalCardInfo text-center"><strong>{{cardInfo.type}} {{cardInfo.subType}}</strong></div>
 		      			<div class="well">
-			      			<div id="modalCardColors" class="modalCardInfo"><strong>Colors:</strong><span class="mana_color" ng-repeat="item in cardInfo.colors"> {{item}}{{$last ? '' : ', '}}</span></div>
+		      				<div id="modalCardColors" class="modalCardInfo" ng-show="cardInfo.subtype"><strong>Subtype:</strong><span> {{cardInfo.subtype}}</span></div>
+			      			<div id="modalCardColors" class="modalCardInfo"><strong>Colors:</strong><span class="mana_color" ng-repeat="item in cardInfo.colour"> {{item}}{{$last ? '' : ', '}}</span></div>
 			      			<div id="modalCardPT" class="modalCardInfo"><strong>Power / Toughness:</strong> {{cardInfo.power}} / {{cardInfo.toughness}}</div>
-			      			
-			      			<div id="modalCardDescription" class="modalCardInfo">
-			      				<strong>Description:</strong>
-			      				<br>
-			      				{{cardInfo.description}}
-			      			</div>
 			      			<div id="modalCardRarity" class="modalCardInfo"><strong>Rarity:</strong> {{cardInfo.rarity}}</div>
-			      			<div id="modalCardSet" class="modalCardInfo"><strong>Set: </strong>{{cardInfo.cardSetName}}</div>
+			      			<div id="modalCardSet" class="modalCardInfo"><strong>Set: </strong>{{cardInfo.set}}</div>
 			      			<div id="modalCardFlavor" class="modalCardInfo text-center" ng-show="cardInfo.flavor.length"><em>{{cardInfo.flavor}}</em></div>
+			      			<div id="modalCardPrice" class="modalCardInfo">
+			      				<div id="pricingTitle"><strong><a href="http://shop.tcgplayer.com/magic/{{(cardInfo.cardSetName).replace(' ', '-')}}/{{(cardInfo.title).replace(' ', '-')}}" target="_blank">TCG Player Pricing</a></strong></div>
+			      				<div id="averagePriceContainer" ng-hide="mtgCardPrice === 'Unavailable'" class="inline_block">
+			      					<span>Average:</span> <span class="text-muted">${{mtgCardPrice.avgprice}}</span>
+			      				</div>
+			      				<div id="foilPriceContainer" ng-hide="mtgCardPrice === 'Unavailable'" class="inline_block">
+			      					<span>Foil:</span> <span class="text-muted">${{mtgCardPrice.foilavgprice}}</span>
+			      				</div>
+			      				<div ng-show="mtgCardPrice === 'Unavailable'">Unavailable</div>
+			      			</div>
 			      		</div>
 		      		</div>
 		      	</div>

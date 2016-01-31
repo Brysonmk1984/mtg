@@ -4,38 +4,21 @@ mtgApp.factory('mtgFactory', function($http){
 	var factory = {};
 	// SERVICE - AUTO - Gets all card sets
 	factory.getMtgCardSet = function(){
-		return $http.get('http://api.mtgdb.info/sets/');
+		return $http.get('backend/setOptions.json');
 	};
 	// SERVICE - AUTO & MANUAL - Gets data from specific set
 	factory.getMtgData = function(selectedSet){
-		var defaultSet = "lea"
-		var selectedSet = selectedSet || defaultSet;
-		return $http.get('http://api.mtgdb.info/sets/'+ selectedSet +'/cards/');
-	};
-	// SERVICE - AUTO -  Gets all card types
-	factory.getMtgCardTypes = function(){
-		return $http.get('http://api.mtgdb.info/cards/types');
-	};
-	// SERVICE - MANUAL - Gets a specific card in entire MTG database
-	factory.getCard = function(card){
-		return $http.get('http://api.mtgdb.info/search/'+ card +'?start=0&limit=0');
+		return $http.get('backend/mtgGenData/'+selectedSet+'.json');
 	};
 	//SERVICE - AUTO - Get specific card price
 	factory.getPriceJson = function(){
-		return $http.get('/backend/master_prices.json');
+		return $http.get('backend/master_prices.json');
 		
 	};
-	/*
-	//SERVICE - MANUAL - Get specific card price
-	factory.getPrice = function(cardConvertedName){
-		return $http.get('/mtg/backend/master_prices.json');
-		
-	};*/
 	 return factory;
 });
 
 mtgApp.controller('cardsterCtrl',['$scope','$http', 'mtgFactory', '$timeout', function($scope, $http, mtgFactory, $timeout){
-	console.log(window.innerWidth);
 	if(window.innerWidth <= 765){
 		$scope.mobileShowFilters = false;
 	}else{
@@ -49,52 +32,47 @@ mtgApp.controller('cardsterCtrl',['$scope','$http', 'mtgFactory', '$timeout', fu
 		}
 	};
 	/* This is the callback shared by both  AJAX calls below */
-	var handleAllCards = function(data,status){
+	var handleAllCards = function(data){
 		$scope.loadingSpinner = false
 		$scope.mtgData = data;
 		$scope.setCount = data.data.length;
-		//console.log($scope.mtgData);
+		console.log($scope.mtgData);
 		$scope.pagination();
 	};
 
 
-	/* Gets the data of the latest set, then  handles the data */
-	var handleCardSet = function(data,status){
-		$scope.mtgCardSet = data;
-		//console.log($scope.mtgCardSet);
-		var latestSetNum = $scope.mtgCardSet.length -1;
-		$scope.random = $scope.mtgCardSet[latestSetNum].name;
-		//console.log($scope.mtgCardSet);
-		var latestSetId = $scope.mtgCardSet[latestSetNum].id;
-		//console.log(latestSetId);
-		$scope.loadingSpinner = true;
-
-		mtgFactory.getMtgData(latestSetId).then(handleAllCards);
-		
-	};
 
 	/* ON LOAD AJAX calls - first gets a list of sets, then on success, gets the data of the latest set */
-	mtgFactory.getMtgCardSet().success(handleCardSet);
+	mtgFactory.getMtgCardSet().success(function(data){
+		var defaultSet = 'ogw';
+		$scope.setOptions = data;
+		console.log($scope.setOptions);
+		var selectedSet = $.grep($scope.setOptions,function(item){
+			if(item.id === defaultSet){
+				return item;
+			}
+			
+		});
+		console.log('ss', selectedSet);
+		$scope.select.set = selectedSet[0].id;
+
+		mtgFactory.getMtgData($scope.select.set).then(handleAllCards);
+	});
 	
 	/* ON CHANGE AJAX call... should do exact same thing the on load AJAX call does */
-	$scope.selectSet = function(set){
+	$scope.loadSet = function(){
 		$scope.loadingSpinner = true;
-		$scope.selectedSet = set;
-		//console.log($scope.selectedSet);
-		var selectedSetId = returnSetId($scope.selectedSet);
-		//console.log(selectedSetId);
-		mtgFactory.getMtgData(selectedSetId).then(handleAllCards);
-		resetPagination();
+		mtgFactory.getMtgData($scope.select.set).then(handleAllCards);
+		//resetPagination();
 	};
 
 
-	var handleCardTypes = function(data,status){
+	var handleCardTypes = function(data){
 		$scope.mtgCardType = data;
 	};
 	// Another Ajax call to get card types
-	mtgFactory.getMtgCardTypes().success(handleCardTypes);
 
-	var handlePriceObject = function(data,status){
+	var handlePriceObject = function(data){
 		cardPriceObj = data;
 		console.log(data);
 
@@ -102,7 +80,7 @@ mtgApp.controller('cardsterCtrl',['$scope','$http', 'mtgFactory', '$timeout', fu
 	//AJAX call to get local json object
 	mtgFactory.getPriceJson().success(handlePriceObject);
 
-	var handleSpecificCard = function(data,status){
+	var handleSpecificCard = function(data){
 		$scope.mtgCard = data;
 		handleAllCards($scope.mtgCard);
 	};
@@ -119,68 +97,55 @@ mtgApp.controller('cardsterCtrl',['$scope','$http', 'mtgFactory', '$timeout', fu
 		});
 		return setId;
 	};
-
-	
-	// Utility function for retrieving the card data from the cached object
-	var returnCardInfo = function(cardId){
-		var cardId = cardId;
-		var cardObj;
-		angular.forEach($scope.mtgData.data, function(key, value){
-			//console.log(key);
-			if(key.id === cardId){
-				cardObj = key;
-				return;
-			}
-		});
-		return cardObj;
-	};
 	
 	// Get a specific card
 	$scope.getCard = function(card){
 		$scope.card = card;
 		mtgFactory.getCard(card).then(handleSpecificCard);
-		resetPagination();
+		//resetPagination();
 	};
 	/* JSON data */
 	var cardPriceObj = {};
 	var getSpecificPrice = function(set,card){
+		console.log(set,card);
 		if(typeof cardPriceObj[set][card] === 'undefined'){
 			$scope.mtgCardPrice = 'Unavailable';
 		}else{
 			$scope.mtgCardPrice = cardPriceObj[set][card];
 		}
 	};
+
+	$scope.select = {
+		set : ""
+	};
 	
 	// Functionality for more card info modal
-	$scope.launchModal = function(cardId){
-
+	$scope.launchModal = function(card){
 		$scope.loadingSpinner = true;
-		$scope.cardId = cardId;
-		var clickedCardInfo = returnCardInfo($scope.cardId);
-		$scope.cardInfo = clickedCardInfo;
-
-
+		$scope.cardInfo = card;
+		console.log('cardd', card);
 		
 
-		//$scope.cardInfo.description = $scope.cardInfo.description.replace(/\{|}/g,' ');
-		//console.log($scope.cardName);
-		//console.log($scope.cardInfo);
-		//console.log($scope.cardInfo.name);
-		var cardConvertedName = $scope.cardInfo.name.replace(/ /g,"-").replace(/'|,/g,"").toLowerCase();
-		//console.log(cardConvertedName);
+
+		var cardConvertedName = $scope.cardInfo.title.replace(/ /g,"-").replace(/'|,/g,"").toLowerCase();
 
 	
-		//console.log(cardPriceObj);
-		var setName = $scope.cardInfo.cardSetName;
-		
-		/* Bad naming convention for core sets, this fixes names. */
-		if(setName.indexOf('Magic 20') !== -1){
-			var coreSetYear = setName.substring(8,10);
-			setName = "Magic 20" + coreSetYear + " (m" + coreSetYear + ")";
-		}
-		getSpecificPrice(setName, $scope.cardInfo.name);
+	
+		var setCode = $scope.cardInfo.set;
+			
 
-		$("#largeCardImageContainer").html('<img id="largeCardImage" src="http://api.mtgdb.info/content/hi_res_card_images/'+ $scope.cardId +'.jpg"/>');
+		var setTitle = $.grep($scope.setOptions,function(item){
+			if(item.id === card.set){
+				return item;
+			}
+			
+		})[0].name;
+
+		console.log('tuff',setTitle, $scope.cardInfo.title);
+
+		getSpecificPrice(setTitle, $scope.cardInfo.title);
+
+		$("#largeCardImageContainer").html('<img id="largeCardImage" src="'+ $scope.cardInfo.src +'"/>');
 		$timeout(function(){
 			$scope.loadingSpinner = false;
 			$('#cardModal').modal();
@@ -190,6 +155,54 @@ mtgApp.controller('cardsterCtrl',['$scope','$http', 'mtgFactory', '$timeout', fu
 	
 		console.log($scope.cardInfo);
 		
+	};
+
+	/* Color Dropdown */
+	$scope.normalize = {
+		colors : [
+		{label : "White", value : "w"},
+		{label : "Black", value : "b"},
+		{label : "Red", value : "r"},
+		{label : "Blue", value : "u"},
+		{label : "Green", value : "g"},
+		{label : "Colorless", value : "A"},
+		{label : "Multicolored", value : "M"},
+		],
+		rarity : [
+		{label : "Common", value : "c"},
+		{label : "Uncommon", value : "u"},
+		{label : "Rare", value : "r"},
+		{label : "Mythic Rare", value : "m"},
+		{label : "Land", value : "l"}
+		],
+		type : [
+		{label : "Creature", value : "Creature"},
+		{label : "Instant", value : "Instant"},
+		{label : "Sorcery", value : "Sorcery"},
+		{label : "Enchantment", value : "Enchantment"},
+		{label : "Equipment", value : "Equipment"},
+		{label : "Artifact", value : "Artifact"},
+		{label : "Land", value : "Land"}
+		],
+
+
+		getColor : function(code){
+			var color;
+			if(code === "w"){
+				color = "white";
+			}else if(code === "b"){
+				color = "black";
+			}else if(code === "r"){
+				color = "red";
+			}else if(code === "g"){
+				color = "green";
+			}else if(code === "u"){
+				color = "blue";
+			}else if(code === "c"){
+				color = "colorless";
+			}
+			return color;
+		}
 	};
 
 	//Pagination function - Enables pagination on app
@@ -210,10 +223,7 @@ mtgApp.controller('cardsterCtrl',['$scope','$http', 'mtgFactory', '$timeout', fu
 	$scope.resetPagination = function(){
 		return $scope.currentPage = 0;
 	}	
-	
-	// setTimeout(function(){
-	// 	console.log($scope.random[0].value);
-	// },4000)
+
 }]);
 	
 //We already have a limitTo filter built-in to angular,
@@ -227,13 +237,4 @@ mtgApp.filter('startFrom', function() {
         return input.slice(start);
     }
 });
-/*
-mtgApp.filter('cardFiltering',function(){
-	return function(input) {
-		console.log(input);
-	   return input;
-	};
-});
-
-*/
 

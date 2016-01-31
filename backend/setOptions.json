@@ -1,0 +1,182 @@
+[
+{ 
+	"name" : "Unlimited Edition",
+	"id" :	"2ed"
+},
+{
+	"name" : "Antiquities",
+	"id" :	"atq"
+},
+{
+	"name" : "Avacyn Restored",
+	"id" :	"avr"
+},
+{
+	"name" : "Battle for Zendikar",
+	"id" :	"bfz"
+},
+{
+	"name" : "Born of the Gods",
+	"id" :	"bng"
+},
+{
+	"name" : "Dragon's Maze",
+	"id" :	"dgm"
+},
+{
+	"name" : "Dark Ascension",
+	"id" :	"dka"
+},
+{
+	"name" : "The Dark",
+	"id" :	"drk"
+},
+{
+	"name" : "Dragons of Tarkir",
+	"id" :	"dtk"
+},
+{
+	"name" : "Fallen Empires",
+	"id" :	"fem"
+},
+{
+	"name" : "Fate Reforged",
+	"id" :	"frf"
+},
+{
+	"name" : "Gatecrash",
+	"id" :	"gtc"
+},
+{
+	"name" : "Homelands",
+	"id" :	"hml"
+},
+{
+	"name" : "Innistrad",
+	"id" :	"isd"
+},
+{
+	"name" : "Journey into Nyx",
+	"id" :	"jou"
+},
+{
+	"name" : "Judgment",
+	"id" :	"jud"
+},
+{
+	"name" : "Khans of Tarkir",
+	"id" :	"ktk"
+},
+{
+	"name" : "Limited Edition Alpha",
+	"id" :	"lea"
+},
+{
+	"name" : "Limited Edition Beta",
+	"id" :	"leb"
+},
+{
+	"name" : "Legends",
+	"id" :	"leg"
+},
+{
+	"name" : "Legions",
+	"id" :	"lgn"
+},
+{
+	"name" : "Magic 2013",
+	"id" :	"m13"
+},
+{
+	"name" : "Magic 2014 Core Set",
+	"id" :	"m14"
+},
+{
+	"name" : "Magic 2015 Core Set",
+	"id" :	"m15"
+},
+{
+	"name" : "Mirrodin Besieged",
+	"id" :	"mbs"
+},
+{
+	"name" : "Mercadian Masques",
+	"id" :	"mmq"
+},
+{
+	"name" : "New Phyrexia",
+	"id" :	"nph"
+},
+{
+	"name" : "Odyssey",
+	"id" :	"ody"
+},
+{
+	"name" : "Oath of the Gatewatch",
+	"id" :	"ogw"
+},
+{
+	"name" : "Onslaught",
+	"id" :	"ons"
+},
+{
+	"name" : "Magic Origins",
+	"id" :	"ori"
+},
+{
+	"name" : "Prophecy",
+	"id" :	"pcy"
+},
+{
+	"name" : "Rise of the Eldrazi",
+	"id" :	"roe"
+},
+{
+	"name" : "Return to Ravnica",
+	"id" :	"rtr"
+},
+{
+	"name" : "Scourge",
+	"id" :	"scg"
+},
+{
+	"name" : "Scars of Mirrodin",
+	"id" :	"som"
+},
+{
+	"name" : "Theros",
+	"id" :	"ths"
+},
+{
+	"name" : "Torment",
+	"id" :	"tor"
+},
+{	
+	"name" : "Urza's Destiny",
+	"id" :	"uds"
+},
+{
+	"name" : "Unglued",
+	"id" :	"ugl"
+},
+{
+	"name" : "Urza's Legacy",
+	"id" :	"ulg"
+},
+{
+	"name" : "Unhinged",
+	"id" :	"unh"
+},
+{
+	"name" : "Urza's Saga",
+	"id" :	"usg"
+},
+{
+	"name" : "Worldwake",
+	"id" :	"wwk"
+},
+{
+	"name" : "Zendikar",
+	"id" :	"zen"
+}
+]
