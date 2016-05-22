@@ -44,7 +44,7 @@ mtgApp.controller('cardsterCtrl',['$scope','$http', 'mtgFactory', '$timeout', fu
 
 	/* ON LOAD AJAX calls - first gets a list of sets, then on success, gets the data of the latest set */
 	mtgFactory.getMtgCardSet().success(function(data){
-		var defaultSet = 'ogw';
+		var defaultSet = 'soi';
 		$scope.setOptions = data;
 		console.log($scope.setOptions);
 		var selectedSet = $.grep($scope.setOptions,function(item){
@@ -107,7 +107,6 @@ mtgApp.controller('cardsterCtrl',['$scope','$http', 'mtgFactory', '$timeout', fu
 	/* JSON data */
 	var cardPriceObj = {};
 	var getSpecificPrice = function(set,card){
-		console.log(set,card);
 		if(typeof cardPriceObj[set][card] === 'undefined'){
 			$scope.mtgCardPrice = 'Unavailable';
 		}else{
@@ -123,7 +122,7 @@ mtgApp.controller('cardsterCtrl',['$scope','$http', 'mtgFactory', '$timeout', fu
 	$scope.launchModal = function(card){
 		$scope.loadingSpinner = true;
 		$scope.cardInfo = card;
-		console.log('cardd', card);
+		console.log('clicked card', card);
 		
 
 
@@ -132,7 +131,7 @@ mtgApp.controller('cardsterCtrl',['$scope','$http', 'mtgFactory', '$timeout', fu
 	
 	
 		var setCode = $scope.cardInfo.set;
-			
+			console.log(cardConvertedName,setCode);
 
 		var setTitle = $.grep($scope.setOptions,function(item){
 			if(item.id === card.set){
@@ -141,7 +140,7 @@ mtgApp.controller('cardsterCtrl',['$scope','$http', 'mtgFactory', '$timeout', fu
 			
 		})[0].name;
 
-		console.log('tuff',setTitle, $scope.cardInfo.title);
+		console.log('set title, card title',setTitle, $scope.cardInfo.title);
 
 		getSpecificPrice(setTitle, $scope.cardInfo.title);
 
